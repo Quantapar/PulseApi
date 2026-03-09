@@ -20,6 +20,7 @@ model User {
   sessions  Session[]
   accounts  Account[]
   endpoints Endpoint[]
+  apiKeys   ApiKey[]
 
   @@map("user")
 }
@@ -109,4 +110,17 @@ model Verification {
 
   @@index([identifier])
   @@map("verification")
+}
+
+model ApiKey {
+  id        String   @id @default(uuid())
+  name      String
+  key       String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@map("api_key")
 }
