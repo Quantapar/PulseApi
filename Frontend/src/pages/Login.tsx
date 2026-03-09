@@ -22,6 +22,13 @@ export default function Login() {
     }
   };
 
+  const handleGoogleSignIn = async () => {
+    await signIn.social({
+      provider: "google",
+      callbackURL: "http://localhost:5173/me",
+    });
+  };
+
   return (
     <div className="container">
       <h2>Sign In</h2>
@@ -31,6 +38,13 @@ export default function Login() {
         <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
         <button type="submit">Sign In</button>
       </form>
+      
+      <div style={{ margin: "20px 0", textAlign: "center" }}>
+        <button type="button" onClick={handleGoogleSignIn} style={{ backgroundColor: "#db4437", color: "white" }}>
+          Sign In with Google
+        </button>
+      </div>
+
       <p><Link to="/forgot-password" style={{ color: "gray" }}>Forgot your password?</Link></p>
       <p>Don't have an account? <Link to="/signup">Sign up here</Link></p>
     </div>

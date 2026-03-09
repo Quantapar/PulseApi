@@ -20,6 +20,12 @@ export const auth = betterAuth({
             maxAge: 5 * 60,
         },
     },
+    socialProviders: {
+        google: {
+            clientId: process.env.GOOGLE_CLIENT_ID as string,
+            clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+        }
+    },
     plugins: [
         emailOTP({
             async sendVerificationOTP({ email, otp, type }) {
@@ -41,6 +47,6 @@ export const auth = betterAuth({
             },
         }),
     ],
-    baseURL: "http://localhost:4040",
+    baseURL: "http://localhost:3000",
     trustedOrigins: ["http://localhost:5174", "http://localhost:5173"],
 });

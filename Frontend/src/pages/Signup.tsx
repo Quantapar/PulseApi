@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { authClient, signUp } from "../lib/auth";
+import { authClient, signUp, signIn } from "../lib/auth";
 import { useNavigate, Link } from "react-router-dom";
 
 export default function Signup() {
@@ -29,6 +29,13 @@ export default function Signup() {
     }
   };
 
+  const handleGoogleSignUp = async () => {
+    await signIn.social({
+      provider: "google",
+      callbackURL: "http://localhost:5173/me",
+    });
+  };
+
   return (
     <div className="container">
       <h2>Sign Up</h2>
@@ -39,6 +46,13 @@ export default function Signup() {
         <input type="password" placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} required />
         <button type="submit">Sign Up</button>
       </form>
+      
+      <div style={{ margin: "20px 0", textAlign: "center" }}>
+        <button type="button" onClick={handleGoogleSignUp} style={{ backgroundColor: "#db4437", color: "white" }}>
+          Sign Up with Google
+        </button>
+      </div>
+
       <p>Already have an account? <Link to="/login">Sign in here</Link></p>
     </div>
   );

@@ -16,7 +16,7 @@ export default function Me() {
 
   const handleGetMe = async () => {
     try {
-      const res = await fetch("http://localhost:4040/api/me", {
+      const res = await fetch("http://localhost:3000/api/me", {
         headers: { "Content-Type": "application/json" },
         credentials: "include"
       });
