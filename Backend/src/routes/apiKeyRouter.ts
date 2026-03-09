@@ -8,7 +8,6 @@ const apiKeyRouter = Router();
 
 apiKeyRouter.use(tokenValidation);
 
-// Get all API keys for the authenticated user
 apiKeyRouter.get("/", async (req, res) => {
   try {
     if (!req.userId) {
@@ -27,7 +26,6 @@ apiKeyRouter.get("/", async (req, res) => {
   }
 });
 
-// Create a new API key
 apiKeyRouter.post("/", async (req, res) => {
   try {
     if (!req.userId) {
@@ -57,7 +55,6 @@ apiKeyRouter.post("/", async (req, res) => {
   }
 });
 
-// Delete an API key
 apiKeyRouter.delete("/:id", async (req, res) => {
   try {
     if (!req.userId) {

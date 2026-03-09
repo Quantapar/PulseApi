@@ -2,10 +2,8 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Activity, ArrowUpRight, Zap, Target, Gauge, Plus, Minus } from "lucide-react";
 import { motion, type Variants } from "framer-motion";
-import { useSession } from "../lib/auth";
 
 export default function Home() {
-  const { data: session, isPending } = useSession();
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   
   const faqs = [
@@ -39,50 +37,7 @@ export default function Home() {
       <div className="grid-bg"></div>
       <div className="ambient-glow"></div>
 
-      <nav className="landing-nav">
-        <Link to="/" className="logo">
-          <span style={{ color: 'var(--text-main)' }}>Pulse</span>
-          <span style={{ color: 'var(--accent-primary)' }}>API</span>
-        </Link>
-        <div className="landing-nav-links">
-          <a href="#features">Features</a>
-          <a href="#demo">Demo</a>
-          <a href="https://github.com/Quantapar/PulseApi" target="_blank" rel="noopener noreferrer">GitHub</a>
-        </div>
-        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-          {isPending ? (
-            <div style={{ width: '40px', height: '40px' }} />
-          ) : session ? (
-            <Link to="/dashboard" style={{ textDecoration: 'none' }}>
-              <div style={{ 
-                width: '40px', 
-                height: '40px', 
-                borderRadius: '50%', 
-                background: 'var(--accent-primary)', 
-                display: 'flex', 
-                alignItems: 'center', 
-                justifyContent: 'center', 
-                color: 'white', 
-                fontWeight: 600, 
-                fontSize: '1.1rem',
-                fontFamily: 'var(--font-display)',
-                border: '2px solid rgba(255,255,255,0.1)'
-              }}>
-                {session.user.name?.charAt(0).toUpperCase() || 'U'}
-              </div>
-            </Link>
-          ) : (
-            <>
-              <Link to="/login" className="btn btn-secondary nav-login-btn">
-                Log in
-              </Link>
-              <Link to="/signup" className="btn btn-outline" style={{ padding: '0.65rem 1.4rem' }}>
-                Get Started
-              </Link>
-            </>
-          )}
-        </div>
-      </nav>
+
 
       <motion.header 
         className="hero container-lg"

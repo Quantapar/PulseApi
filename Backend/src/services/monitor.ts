@@ -52,11 +52,15 @@ export async function pingEndpoint(endpoint: any) {
   console.log(`[Monitor] Pinged ${endpoint.name} (${endpoint.url}) - Status: ${status} - Time: ${responseTime}ms`);
 }
 
+let isChecking = false;
+
 export function startMonitoringService() {
   console.log("[Monitor] Starting endpoint monitoring service...");
   
-
   setInterval(async () => {
+    if (isChecking) return;
+    isChecking = true;
+
     try {
       const endpoints = await prisma.endpoint.findMany();
       const now = new Date();
@@ -88,6 +92,8 @@ export function startMonitoringService() {
       }
     } catch (e) {
       console.error("[Monitor] Error in monitoring loop:", e);
+    } finally {
+      isChecking = false;
     }
   }, 5000); 
 }

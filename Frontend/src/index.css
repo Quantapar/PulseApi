@@ -226,7 +226,24 @@ a {
   justify-content: space-between;
   align-items: center;
   z-index: 1000;
+  transition: all 0.3s ease;
 }
+
+.landing-nav.restricted {
+  top: 0;
+  left: 0;
+  transform: none;
+  width: 100%;
+  max-width: none;
+  border-radius: 0;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  padding: 0.75rem 2rem;
+  background: var(--bg-base);
+  border-bottom: 1px solid var(--border-strong);
+}
+
 
 .landing-nav-links {
   display: none;

@@ -166,7 +166,7 @@ endpointRouter.get("/:id/pings", async (req, res) => {
     const pings = await prisma.ping.findMany({
       where: { endpointId: id },
       orderBy: { createdAt: "desc" },
-      take: 100 
+      take: 20 
     });
 
     return res.json({
