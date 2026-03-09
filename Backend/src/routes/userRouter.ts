@@ -5,7 +5,7 @@ import { tokenValidation } from "../middleware/tokenValidation";
 
 export const userRouter = express.Router();
 
-userRouter.get("/me", tokenValidation, async (req, res) => {
+userRouter.get("/dashboard", tokenValidation, async (req, res) => {
   try {
     const user = await prisma.user.findUnique({
       where: { id: req.userId },

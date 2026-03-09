@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
 
 :root {
 
@@ -11,18 +11,18 @@
   --text-muted: #8d8d8d;
   --text-dim: #555555;
   
-  --accent-primary: #ff5f1f;
-  --accent-glow: rgba(255, 95, 31, 0.4);
-  --accent-secondary: #ff8c00;
+  --accent-primary: #52B365;
+  --accent-glow: rgba(82, 179, 101, 0.4);
+  --accent-secondary: #409250;
   
   --border-subtle: rgba(255, 255, 255, 0.04);
   --border-strong: rgba(255, 255, 255, 0.1);
-  --border-accent: rgba(255, 95, 31, 0.3);
+  --border-accent: rgba(82, 179, 101, 0.3);
 
 
   --font-display: 'Inter', sans-serif;
-  --font-body: 'Inter', sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-body: 'Space Mono', monospace;
+  --font-mono: 'Space Mono', monospace;
   
 
   --radius-xl: 32px;
@@ -95,7 +95,7 @@ a {
   transform: translateX(-50%);
   width: 120vw;
   height: 80vh;
-  background: radial-gradient(ellipse at 50% 10%, rgba(255, 95, 31, 0.18) 0%, rgba(255, 140, 0, 0.05) 40%, transparent 80%);
+  background: radial-gradient(ellipse at 50% 10%, rgba(82, 179, 101, 0.25) 0%, rgba(82, 179, 101, 0.1) 40%, transparent 80%);
   border-bottom-left-radius: 50%;
   border-bottom-right-radius: 50%;
   filter: blur(60px);
@@ -154,6 +154,20 @@ a {
   border: 1px solid transparent;
 }
 
+.btn:active {
+  transform: scale(0.98) !important;
+}
+
+.nav-login-btn {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  transition: var(--transition-fast);
+}
+
+.nav-login-btn:hover {
+  color: #ffffff;
+}
+
 .btn-primary {
   background: #ffffff;
   color: #000000;
@@ -184,7 +198,7 @@ a {
   align-items: center;
   gap: 0.5rem;
   padding: 0.35rem 0.85rem;
-  background: rgba(255, 95, 31, 0.1);
+  background: rgba(82, 179, 101, 0.1);
   color: var(--accent-primary);
   border: 1px solid var(--border-accent);
   border-radius: 99px;
@@ -196,13 +210,22 @@ a {
 
 
 .landing-nav {
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  padding: 1.5rem 4vw;
+  position: fixed;
+  top: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 1000px;
+  padding: 0.75rem 1.5rem;
+  background: rgba(10, 10, 10, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-strong);
+  border-radius: 9999px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  z-index: 100;
+  z-index: 1000;
 }
 
 .landing-nav-links {
@@ -257,7 +280,7 @@ a {
 }
 
 .hero h1 {
-  font-size: clamp(2.5rem, 6vw, 5.5rem);
+  font-size: clamp(2rem, 4.5vw, 4.5rem);
   max-width: 1100px;
   margin: 1.5rem auto;
   color: #ffffff;
@@ -309,7 +332,7 @@ a {
   font-family: var(--font-display);
   font-size: 3.5rem;
   font-weight: 800;
-  color: var(--accent-primary);
+  color: #ffffff;
   margin-bottom: 0.5rem;
   display: flex;
   align-items: center;
@@ -420,38 +443,62 @@ a {
   font-size: 1.15rem;
 }
 
-.faq-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
-  max-width: 1000px;
+.faq-accordion {
+  max-width: 900px;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
 }
 
-.faq-card {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-strong);
-  padding: 2.5rem;
-  border-radius: var(--radius-md);
+.faq-item {
+  border-bottom: 1px solid var(--border-strong);
+}
+
+.faq-item:first-child {
+  border-top: 1px solid var(--border-strong);
+}
+
+.faq-question {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.75rem 0;
+  background: transparent;
+  border: none;
+  color: var(--text-main);
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+}
+
+.faq-question:hover {
+  color: #ffffff;
+}
+
+.faq-icon {
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   transition: var(--transition-fast);
 }
 
-.faq-card:hover {
-  background: var(--bg-surface-highlight);
-  border-color: rgba(255, 255, 255, 0.15);
-}
-
-.faq-card h4 {
-  font-size: 1.25rem;
+.faq-question:hover .faq-icon {
   color: var(--text-main);
-  margin-bottom: 1rem;
 }
 
-.faq-card p {
+.faq-answer-wrapper {
+  overflow: hidden;
+}
+
+.faq-answer {
+  padding-bottom: 1.75rem;
   color: var(--text-muted);
   font-size: 0.95rem;
-  line-height: 1.6;
-  margin: 0;
+  line-height: 1.7;
 }
 
 @media (max-width: 1024px) {
@@ -461,8 +508,8 @@ a {
 }
 
 @media (max-width: 768px) {
-  .faq-grid {
-    grid-template-columns: 1fr;
+  .faq-intro h2 {
+    font-size: 2.5rem;
   }
 }
 
@@ -535,7 +582,27 @@ a {
   display: block;
   margin-bottom: 0.5rem;
   font-size: 0.9rem;
+}
+
+.auth-footer {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 0.9rem;
   color: var(--text-muted);
+}
+
+.auth-footer a {
+  color: var(--text-main);
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 255, 255, 0.3);
+  text-underline-offset: 4px;
+  font-weight: 500;
+  transition: var(--transition-fast);
+}
+
+.auth-footer a:hover {
+  text-decoration-color: var(--accent-primary);
+  color: var(--accent-primary);
 }
 
 .form-group input {

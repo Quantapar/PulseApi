@@ -23,7 +23,7 @@ export default function VerifyEmail() {
       setError(verifyErr.message || "Failed to verify email. Please check your OTP.");
     } else {
       setMessage("Email verified successfully!");
-      setTimeout(() => navigate("/me"), 2000);
+      setTimeout(() => navigate("/dashboard"), 2000);
     }
   };
 

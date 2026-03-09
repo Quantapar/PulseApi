@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { signIn, useSession } from "../lib/auth";
 import { useNavigate, Link } from "react-router-dom";
-import { Activity } from "lucide-react";
+
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -13,7 +13,7 @@ export default function Login() {
 
   useEffect(() => {
     if (!isPending && session) {
-      navigate("/me");
+      navigate("/dashboard");
     }
   }, [session, isPending, navigate]);
 
@@ -27,14 +27,14 @@ export default function Login() {
     if (signInErr) {
       setError(signInErr.message || "An error occurred");
     } else {
-      navigate("/me");
+      navigate("/dashboard");
     }
   };
 
   const handleGoogleSignIn = async () => {
     await signIn.social({
       provider: "google",
-      callbackURL: "http://localhost:5173/me",
+      callbackURL: "http://localhost:5173/dashboard",
     });
   };
 
@@ -44,12 +44,11 @@ export default function Login() {
     <div className="auth-container">
       <div className="bg-glow bg-glow-1"></div>
       <div className="bg-glow bg-glow-2"></div>
-
       <div className="glass-panel auth-card">
         <div className="auth-header">
-            <Link to="/" className="logo-link">
-                <Activity color="var(--accent-primary)" size={24} />
-                PulseAPI
+            <Link to="/" className="logo" style={{ justifyContent: 'center', marginBottom: '1.5rem', textDecoration: 'none' }}>
+                <span style={{ color: 'var(--text-main)' }}>Pulse</span>
+                <span style={{ color: 'var(--accent-primary)' }}>API</span>
             </Link>
             <h2>Welcome back</h2>
             <p>Log into your account to continue</p>
@@ -83,8 +82,8 @@ export default function Login() {
           Sign In with Google
         </button>
 
-        <div style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
-          Don't have an account? <Link to="/signup">Sign up here</Link>
+        <div className="auth-footer">
+          Don&apos;t have an account? <Link to="/signup">Sign up here</Link>
         </div>
       </div>
     </div>

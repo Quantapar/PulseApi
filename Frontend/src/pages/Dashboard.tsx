@@ -3,7 +3,7 @@ import { useSession, signOut } from "../lib/auth";
 import { useNavigate, Link } from "react-router-dom";
 import { Activity, LogOut, Code, User, Settings, Database, Server } from "lucide-react";
 
-export default function Me() {
+export default function Dashboard() {
   const { data: session, isPending } = useSession();
   const [apiData, setApiData] = useState<any>(null);
   const [error, setError] = useState("");
@@ -17,7 +17,7 @@ export default function Me() {
 
   const handleGetMe = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/me", {
+      const res = await fetch("http://localhost:3000/api/dashboard", {
         headers: { "Content-Type": "application/json" },
         credentials: "include"
       });
@@ -26,7 +26,7 @@ export default function Me() {
       setApiData(data.data);
       setError("");
     } catch (err: any) {
-      setError(`Error fetching /me: ${err.message || 'Unauthorized'}`);
+      setError(`Error fetching /dashboard: ${err.message || 'Unauthorized'}`);
     }
   };
 
@@ -39,12 +39,14 @@ export default function Me() {
   if (!session) return null; 
 
   return (
-    <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg-primary)' }}>
+    <div style={{ display: 'flex', minHeight: '100vh', background: 'var(--bg-base)', position: 'relative', overflow: 'hidden' }}>
+      <div className="bg-glow bg-glow-1"></div>
+      <div className="bg-glow bg-glow-2"></div>
 
-      <aside style={{ width: '260px', borderRight: '1px solid var(--border-color)', background: 'var(--bg-card)', padding: '1.5rem', display: 'flex', flexDirection: 'column' }}>
-        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none', color: 'white', fontSize: '1.25rem', fontWeight: 700, marginBottom: '2.5rem' }}>
-            <Activity color="var(--accent-primary)" size={24} />
-            PulseAPI
+      <aside style={{ width: '280px', borderRight: '1px solid var(--border-strong)', background: 'rgba(10, 10, 10, 0.6)', backdropFilter: 'blur(20px)', padding: '1.5rem', display: 'flex', flexDirection: 'column', position: 'relative', zIndex: 10 }}>
+        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', textDecoration: 'none', fontSize: '1.25rem', fontWeight: 700, marginBottom: '2.5rem' }}>
+            <span style={{ color: 'var(--text-main)' }}>Pulse</span>
+            <span style={{ color: 'var(--accent-primary)' }}>API</span>
         </Link>
         
         <nav style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', flex: 1 }}>
@@ -64,7 +66,7 @@ export default function Me() {
 
         <div style={{ borderTop: '1px solid var(--border-color)', paddingTop: '1.5rem' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
-                <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'var(--accent-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 600 }}>
+                <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'var(--accent-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 600, fontFamily: 'var(--font-display)' }}>
                     {session.user.name?.charAt(0).toUpperCase() || 'U'}
                 </div>
                 <div>
@@ -79,10 +81,10 @@ export default function Me() {
       </aside>
 
 
-      <main style={{ flex: 1, overflowY: 'auto', padding: '2rem 3rem' }}>
+      <main style={{ flex: 1, overflowY: 'auto', padding: '2rem 3rem', position: 'relative', zIndex: 10 }}>
         <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '3rem' }}>
             <div>
-                <h1 style={{ fontSize: '2rem', marginBottom: '0.25rem' }}>Dashboard</h1>
+                <h1 style={{ fontSize: '2rem', marginBottom: '0.25rem', fontFamily: 'var(--font-display)' }}>Dashboard</h1>
                 <p style={{ color: 'var(--text-secondary)', margin: 0 }}>Manage your monitoring endpoints and API settings.</p>
             </div>
         </header>
@@ -96,18 +98,23 @@ export default function Me() {
                     <User size={20} />
                     <h3 style={{ margin: 0, fontSize: '1.1rem' }}>Account Details</h3>
                 </div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                    <div>
-                        <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '0.25rem' }}>Name</div>
-                        <div style={{ fontWeight: 500 }}>{session.user.name}</div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                    <div style={{ background: 'rgba(255,255,255,0.02)', padding: '1rem 1.25rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-subtle)' }}>
+                        <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-muted)', marginBottom: '0.25rem', fontFamily: 'var(--font-display)' }}>Name</div>
+                        <div style={{ fontWeight: 600, fontSize: '1.05rem', color: 'var(--text-main)', fontFamily: 'var(--font-display)' }}>{session.user.name}</div>
                     </div>
-                    <div>
-                        <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '0.25rem' }}>Email</div>
-                        <div style={{ fontWeight: 500 }}>{session.user.email}</div>
+                    <div style={{ background: 'rgba(255,255,255,0.02)', padding: '1rem 1.25rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-subtle)' }}>
+                        <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-muted)', marginBottom: '0.25rem', fontFamily: 'var(--font-display)' }}>Email Address</div>
+                        <div style={{ fontWeight: 600, fontSize: '1.05rem', color: 'var(--text-main)', fontFamily: 'var(--font-display)' }}>{session.user.email}</div>
                     </div>
-                    <div>
-                        <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', marginBottom: '0.25rem' }}>Status</div>
-                        <div style={{ display: 'inline-flex', padding: '0.25rem 0.5rem', background: 'rgba(16, 185, 129, 0.1)', color: 'var(--success)', borderRadius: '4px', fontSize: '0.75rem', fontWeight: 600 }}>Active Workspace</div>
+                    <div style={{ background: 'rgba(255,255,255,0.02)', padding: '1rem 1.25rem', borderRadius: 'var(--radius-sm)', border: '1px solid var(--border-subtle)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <div>
+                            <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-muted)', marginBottom: '0.25rem', fontFamily: 'var(--font-display)' }}>Workspace Status</div>
+                            <div style={{ fontWeight: 600, fontSize: '1.05rem', color: 'var(--text-main)', fontFamily: 'var(--font-display)' }}>Personal</div>
+                        </div>
+                        <div style={{ display: 'inline-flex', padding: '0.35rem 0.75rem', background: 'var(--accent-glow)', color: 'var(--accent-primary)', border: '1px solid var(--border-accent)', borderRadius: '6px', fontSize: '0.75rem', fontWeight: 600, letterSpacing: '0.03em', fontFamily: 'var(--font-display)' }}>
+                            ACTIVE
+                        </div>
                     </div>
                 </div>
             </div>
@@ -122,7 +129,7 @@ export default function Me() {
                     Test your backend connection to verify authenticated API calls are passing JWT session tokens correctly.
                 </p>
                 <button onClick={handleGetMe} className="btn btn-primary" style={{ width: '100%' }}>
-                    Ping /api/me
+                    Ping /api/dashboard
                 </button>
             </div>
         </div>
