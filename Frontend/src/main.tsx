@@ -8,11 +8,13 @@ import VerifyEmail from "./pages/VerifyEmail.tsx";
 import ForgotPassword from "./pages/ForgotPassword.tsx";
 import "./index.css";
 
+import Home from "./pages/Home";
+
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Navigate to="/login" replace />} />
+        <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/me" element={<Me />} />

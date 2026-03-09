@@ -52,9 +52,9 @@ model Ping {
   endpointId   String
   endpoint     Endpoint @relation(fields: [endpointId], references: [id], onDelete: Cascade)
   
-  status       String   // "UP" | "DOWN"
-  responseTime Int      // in milliseconds
-  statusCode   Int?     // the actual HTTP status code we got back
+  status       String   
+  responseTime Int      
+  statusCode   Int?     
   
   createdAt    DateTime @default(now())
 

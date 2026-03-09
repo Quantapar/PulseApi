@@ -43,7 +43,6 @@ function App() {
   const handleGetMe = async () => {
     setMessage('Fetching /api/me...')
     try {
-      // The Better Auth fetch wrapper automatically handles sending credentials
       const res = await authClient.$fetch('/api/me')
       setApiData(res.data)
       setMessage('Fetched user profile successfully')
@@ -88,7 +87,6 @@ function App() {
         </div>
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
-          {/* SIGN IN FORM */}
           <div style={{ border: '1px solid #ccc', padding: '1.5rem', borderRadius: '8px' }}>
             <h2>Sign In</h2>
             <form onSubmit={handleSignIn} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
@@ -114,7 +112,6 @@ function App() {
             </form>
           </div>
 
-          {/* SIGN UP FORM */}
           <div style={{ border: '1px solid #ccc', padding: '1.5rem', borderRadius: '8px' }}>
             <h2>Sign Up</h2>
             <form onSubmit={handleSignUp} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
