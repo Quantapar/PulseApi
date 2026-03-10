@@ -34,7 +34,7 @@ export default function Login() {
   const handleGoogleSignIn = async () => {
     await signIn.social({
       provider: "google",
-      callbackURL: "http://localhost:5173/dashboard",
+      callbackURL: `${window.location.origin}/dashboard`,
     });
   };
 

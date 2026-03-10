@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
 :root {
 
@@ -21,8 +21,8 @@
 
 
   --font-display: 'Inter', sans-serif;
-  --font-body: 'Space Mono', monospace;
-  --font-mono: 'Space Mono', monospace;
+  --font-body: 'JetBrains Mono', monospace;
+  --font-mono: 'JetBrains Mono', monospace;
   
 
   --radius-xl: 32px;
@@ -39,6 +39,10 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: var(--font-body);
   background-color: var(--bg-base);
@@ -48,6 +52,21 @@ body {
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
   overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-base);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--bg-surface-highlight);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-strong);
 }
 
 
@@ -297,7 +316,7 @@ a {
 }
 
 .hero h1 {
-  font-size: clamp(2rem, 4.5vw, 4.5rem);
+  font-size: clamp(3rem, 6.5vw, 6rem);
   max-width: 1100px;
   margin: 1.5rem auto;
   color: #ffffff;

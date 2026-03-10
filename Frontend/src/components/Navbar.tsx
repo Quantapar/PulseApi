@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useSession } from "../lib/auth";
 
 export default function Navbar() {
@@ -11,8 +11,8 @@ export default function Navbar() {
         <span style={{ color: "var(--accent-primary)" }}>API</span>
       </Link>
       <div className="landing-nav-links">
-        <Link to="/#features">Features</Link>
-        <Link to="/#demo">Demo</Link>
+        <a href="#features">Features</a>
+        <a href="#demo">Demo</a>
         <a
           href="https://github.com/Quantapar/PulseApi"
           target="_blank"

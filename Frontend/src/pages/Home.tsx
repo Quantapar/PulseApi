@@ -3,7 +3,11 @@ import { Link } from "react-router-dom";
 import { Activity, ArrowUpRight, Zap, Target, Gauge, Plus, Minus } from "lucide-react";
 import { motion, type Variants } from "framer-motion";
 
+import Navbar from "../components/Navbar";
+import { useSession } from "../lib/auth";
+
 export default function Home() {
+  const { data: session } = useSession();
   const [openFaq, setOpenFaq] = useState<number | null>(null);
   
   const faqs = [
@@ -33,6 +37,7 @@ export default function Home() {
 
   return (
     <>
+      <Navbar />
       <div className="noise-overlay"></div>
       <div className="grid-bg"></div>
       <div className="ambient-glow"></div>
@@ -62,9 +67,9 @@ export default function Home() {
           <Link to="/signup" className="btn btn-primary" style={{ padding: '1rem 2.5rem', fontSize: '1rem' }}>
             Start Monitoring <ArrowUpRight size={18} />
           </Link>
-          <a href="#demo" className="btn btn-outline" style={{ padding: '1rem 2.5rem', fontSize: '1rem' }}>
+          <Link to={session ? "/dashboard" : "/signup"} className="btn btn-outline" style={{ padding: '1rem 2.5rem', fontSize: '1rem' }}>
             Add Your First Endpoint
-          </a>
+          </Link>
         </motion.div>
 
 

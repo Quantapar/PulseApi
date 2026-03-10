@@ -101,12 +101,14 @@ export default function Dashboard() {
       <div className="bg-glow bg-glow-1"></div>
       <div className="bg-glow bg-glow-2"></div>
 
-      {/* Spacer for floating navbar */}
-      <div style={{ height: '7.5rem', flexShrink: 0 }}></div>
-
       <div style={{ display: 'flex', flex: 1, borderTop: '1px solid var(--border-strong)', overflow: 'hidden' }}>
-        <aside style={{ width: '280px', borderRight: '1px solid var(--border-strong)', background: 'rgba(10, 10, 10, 0.4)', backdropFilter: 'blur(20px)', padding: '2rem 1.5rem', display: 'flex', flexDirection: 'column', position: 'relative', zIndex: 10 }}>
+        <aside style={{ width: '280px', borderRight: '1px solid var(--border-strong)', background: 'var(--bg-surface)', padding: '2rem 1.5rem', display: 'flex', flexDirection: 'column', position: 'relative', zIndex: 10 }}>
           
+          <Link to="/" className="logo" style={{ marginBottom: '3rem', paddingLeft: '0.5rem' }}>
+            <span style={{ color: "var(--text-main)" }}>Pulse</span>
+            <span style={{ color: "var(--accent-primary)" }}>API</span>
+          </Link>
+
           <nav style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', flex: 1 }}>
               {[
                 { name: "Endpoints", icon: <Server size={18} />, path: "/dashboard" },
@@ -141,9 +143,10 @@ export default function Dashboard() {
         </aside>
 
         <main style={{ flex: 1, overflowY: 'auto', padding: '2rem 3rem 4rem', position: 'relative', zIndex: 10 }}>
-        <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '3rem' }}>
+        <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '3rem' }}>
             <div>
-                <p style={{ color: 'var(--text-secondary)', margin: 0 }}>Manage your monitored API endpoints.</p>
+                <h1 style={{ fontSize: '1.5rem', marginBottom: '0.5rem', fontFamily: 'var(--font-display)', color: 'var(--text-main)', fontWeight: 600 }}>API Endpoints</h1>
+                <p style={{ color: 'var(--text-secondary)', margin: 0, fontFamily: 'var(--font-mono)', fontSize: '0.85rem' }}>Manage and monitor your API endpoints.</p>
             </div>
         </header>
 

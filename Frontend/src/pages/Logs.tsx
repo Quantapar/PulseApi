@@ -88,12 +88,14 @@ export default function Logs() {
       <div className="bg-glow bg-glow-1"></div>
       <div className="bg-glow bg-glow-2"></div>
 
-      {/* Spacer for floating navbar */}
-      <div style={{ height: '7.5rem', flexShrink: 0 }}></div>
-
       <div style={{ display: 'flex', flex: 1, borderTop: '1px solid var(--border-strong)', overflow: 'hidden' }}>
-        <aside style={{ width: '280px', borderRight: '1px solid var(--border-strong)', background: 'rgba(10, 10, 10, 0.4)', backdropFilter: 'blur(20px)', padding: '2rem 1.5rem', display: 'flex', flexDirection: 'column', position: 'relative', zIndex: 10 }}>
+        <aside style={{ width: '280px', borderRight: '1px solid var(--border-strong)', background: 'var(--bg-surface)', padding: '2rem 1.5rem', display: 'flex', flexDirection: 'column', position: 'relative', zIndex: 10 }}>
           
+          <Link to="/" className="logo" style={{ marginBottom: '3rem', paddingLeft: '0.5rem' }}>
+            <span style={{ color: "var(--text-main)" }}>Pulse</span>
+            <span style={{ color: "var(--accent-primary)" }}>API</span>
+          </Link>
+
           <nav style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', flex: 1 }}>
               {[
                   { name: "Endpoints", icon: <Server size={18} />, path: "/dashboard" },
@@ -128,13 +130,16 @@ export default function Logs() {
         </aside>
 
         <main style={{ flex: 1, overflowY: 'auto', padding: '2rem 3rem 4rem', position: 'relative', zIndex: 10 }}>
-        <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '3rem' }}>
-            <div>
-                <h1 style={{ fontSize: '2rem', marginBottom: '0.25rem', fontFamily: 'var(--font-display)', color: 'var(--text-main)' }}>Activity Logs</h1>
-                <p style={{ color: 'var(--text-secondary)', margin: 0 }}>Monitor API performance, uptime, and latency over time.</p>
+        <header style={{ marginBottom: '3rem' }}>
+            <div style={{ marginBottom: '2rem' }}>
+                <h1 style={{ fontSize: '1.5rem', marginBottom: '0.5rem', fontFamily: 'var(--font-display)', color: 'var(--text-main)', fontWeight: 600 }}>Activity Logs</h1>
+                <p style={{ color: 'var(--text-secondary)', margin: 0, fontFamily: 'var(--font-mono)', fontSize: '0.85rem' }}>Monitor API performance, uptime, and latency over time.</p>
             </div>
-            <div style={{ width: '280px', display: 'flex', flexDirection: 'column' }}>
-              <label style={{ width: '100%', boxSizing: 'border-box', textAlign: 'left', fontSize: '0.75rem', color: '#ffffff', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.5rem', background: 'rgba(255,255,255,0.05)', padding: '0.4rem 0.75rem' }}>SWITCH API ENDPOINT</label>
+            
+            <div style={{ width: '100%', maxWidth: '400px', display: 'flex', flexDirection: 'column' }}>
+              <label style={{ width: '100%', boxSizing: 'border-box', textAlign: 'left', fontSize: '0.75rem', color: 'var(--accent-primary)', fontFamily: 'var(--font-display)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '0.5rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                Switch API Endpoint
+              </label>
               <select 
                   className="input-field" 
                   value={selectedEndpointId}
@@ -142,23 +147,20 @@ export default function Logs() {
                   style={{ 
                       width: '100%',
                       boxSizing: 'border-box',
-                      background: 'var(--bg-surface-elevated)', 
-                      border: '1px solid var(--accent-primary)', 
-                      color: 'var(--accent-primary)', 
-                      fontSize: '1rem', 
-                      fontFamily: 'var(--font-mono)',
-                      fontWeight: 700, 
-                      padding: '0.75rem 1rem', 
+                      background: 'var(--bg-surface)', 
+                      border: '1px solid var(--border-strong)', 
+                      color: 'var(--text-main)', 
+                      fontSize: '0.9rem', 
+                      padding: '0.6rem 1rem', 
                       cursor: 'pointer', 
-                      boxShadow: '0 0 15px rgba(82, 179, 101, 0.1)', 
                       outline: 'none',
-                      borderRadius: '8px'
+                      borderRadius: 'var(--radius-sm)'
                   }}
               >
                   <option value="" disabled style={{ color: 'var(--text-muted)' }}>Select an endpoint...</option>
                   {endpoints.map(ep => (
                       <option key={ep.id} value={ep.id} style={{ color: '#ffffff', background: '#111', fontSize: '0.9rem' }}>
-                          {ep.name} • {ep.method}
+                          {ep.name} {ep.method}
                       </option>
                   ))}
               </select>

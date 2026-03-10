@@ -40,7 +40,7 @@ export default function Signup() {
   const handleGoogleSignUp = async () => {
     await signIn.social({
       provider: "google",
-      callbackURL: "http://localhost:5173/dashboard",
+      callbackURL: `${window.location.origin}/dashboard`,
     });
   };
 
