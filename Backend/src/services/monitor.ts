@@ -1,4 +1,7 @@
 import { prisma } from "../../db";
+import { Resend } from "resend";
+
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function pingEndpoint(endpoint: any) {
   const startTime = Date.now();
@@ -40,6 +43,29 @@ export async function pingEndpoint(endpoint: any) {
     }
   });
 
+  if (status === "DOWN" && endpoint.status !== "DOWN") {
+    try {
+      const user = await prisma.user.findUnique({
+        where: { id: endpoint.userId }
+      });
+      
+      if (user && user.email) {
+        await resend.emails.send({
+          from: "PulseAPI Alerts <nagmani@email.nagmaniupadhyay.com.np>",
+          to: user.email,
+          subject: `Alert: ${endpoint.name} is DOWN`,
+          html: `<p>Hello ${user.name || 'User'},</p>
+                 <p>Your monitored API endpoint <strong>${endpoint.name}</strong> (${endpoint.url}) has gone DOWN.</p>
+                 <p><strong>Status Code:</strong> ${statusCode || 'Timeout/Error'}</p>
+                 <p><strong>Response Time:</strong> ${responseTime}ms</p>
+                 <p>Please check your application logs.</p>`,
+        });
+        console.log(`[Monitor] Sent downtime alert email to ${user.email} for endpoint ${endpoint.name}`);
+      }
+    } catch (emailErr) {
+      console.error("[Monitor] Failed to send downtime alert email:", emailErr);
+    }
+  }
 
   await prisma.endpoint.update({
     where: { id: endpoint.id },
