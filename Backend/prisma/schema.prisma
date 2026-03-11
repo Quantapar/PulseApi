@@ -34,8 +34,9 @@ model Endpoint {
   expectedStatus Int      @default(200)
   interval       Int      @default(60)
 
+  shareToken     String?  @unique @default(uuid())
 
-  status         String   @default("UNKNOWN") 
+  status         String   @default("UNKNOWN")
   lastCheckedAt  DateTime?
 
   userId         String

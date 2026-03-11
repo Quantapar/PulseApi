@@ -73,31 +73,113 @@ endpointRouter.get("/", async (req, res) => {
   }
 });
 
-endpointRouter.get("/:id", async (req, res) => {
+endpointRouter.get("/:id/share", async (req, res) => {
   try {
     const { id } = req.params;
-    
+
+    if (!req.userId) {
+      return res.status(401).json({ success: false, error: "Unauthorized" });
+    }
+
+    let endpoint = await prisma.endpoint.findFirst({
+      where: { id, userId: req.userId },
+      select: { id: true, shareToken: true },
+    });
+
+    if (!endpoint) {
+      return res
+        .status(404)
+        .json({ success: false, error: "Endpoint not found or unauthorized" });
+    }
+
+    if (!endpoint.shareToken) {
+      const updated = await prisma.endpoint.update({
+        where: { id: endpoint.id },
+        data: { shareToken: crypto.randomUUID() },
+        select: { shareToken: true },
+      });
+      endpoint = { ...endpoint, shareToken: updated.shareToken };
+    }
+
+    return res.json({
+      success: true,
+      data: { shareToken: endpoint.shareToken },
+    });
+  } catch (error) {
+    console.error("Failed to get share token:", error);
+    return res
+      .status(500)
+      .json({ success: false, error: "INTERNAL_SERVER_ERROR" });
+  }
+});
+
+endpointRouter.get("/:id/pings", async (req, res) => {
+  try {
+    const { id } = req.params;
+
     if (!req.userId) {
       return res.status(401).json({ success: false, error: "Unauthorized" });
     }
 
     const endpoint = await prisma.endpoint.findFirst({
-      where: { id, userId: req.userId }
+      where: { id, userId: req.userId },
     });
 
     if (!endpoint) {
-      return res.status(404).json({ success: false, error: "Endpoint not found or unauthorized" });
+      return res
+        .status(404)
+        .json({ success: false, error: "Endpoint not found or unauthorized" });
+    }
+
+    const pings = await prisma.ping.findMany({
+      where: { endpointId: id },
+      orderBy: { createdAt: "desc" },
+      take: 20,
+    });
+
+    return res.json({
+      success: true,
+      data: pings,
+    });
+  } catch (error) {
+    console.error("Failed to fetch pings:", error);
+    return res.status(500).json({
+      success: false,
+      error: "INTERNAL_SERVER_ERROR",
+    });
+  }
+});
+
+endpointRouter.get("/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    if (!req.userId) {
+      return res.status(401).json({ success: false, error: "Unauthorized" });
+    }
+
+    const endpoint = await prisma.endpoint.findFirst({
+      where: { id, userId: req.userId },
+    });
+
+    if (!endpoint) {
+      return res
+        .status(404)
+        .json({ success: false, error: "Endpoint not found or unauthorized" });
     }
 
     const totalPings = await prisma.ping.count({
-      where: { endpointId: id }
+      where: { endpointId: id },
     });
 
     const upPings = await prisma.ping.count({
-      where: { endpointId: id, status: "UP" }
+      where: { endpointId: id, status: "UP" },
     });
 
-    const uptime = totalPings > 0 ? parseFloat(((upPings / totalPings) * 100).toFixed(2)) : 0;
+    const uptime =
+      totalPings > 0
+        ? parseFloat(((upPings / totalPings) * 100).toFixed(2))
+        : 0;
 
     return res.json({
       success: true,
@@ -118,20 +200,22 @@ endpointRouter.get("/:id", async (req, res) => {
 endpointRouter.delete("/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    
+
     if (!req.userId) {
       return res.status(401).json({ success: false, error: "Unauthorized" });
     }
 
     const deleted = await prisma.endpoint.deleteMany({
-      where: { 
-        id, 
-        userId: req.userId 
+      where: {
+        id,
+        userId: req.userId,
       },
     });
 
     if (deleted.count === 0) {
-      return res.status(404).json({ success: false, error: "Endpoint not found or unauthorized" });
+      return res
+        .status(404)
+        .json({ success: false, error: "Endpoint not found or unauthorized" });
     }
 
     return res.json({
@@ -140,41 +224,6 @@ endpointRouter.delete("/:id", async (req, res) => {
     });
   } catch (error) {
     console.error("Failed to delete endpoint:", error);
-    return res.status(500).json({
-      success: false,
-      error: "INTERNAL_SERVER_ERROR",
-    });
-  }
-});
-
-endpointRouter.get("/:id/pings", async (req, res) => {
-  try {
-    const { id } = req.params;
-    
-    if (!req.userId) {
-      return res.status(401).json({ success: false, error: "Unauthorized" });
-    }
-
-    const endpoint = await prisma.endpoint.findFirst({
-      where: { id, userId: req.userId }
-    });
-
-    if (!endpoint) {
-      return res.status(404).json({ success: false, error: "Endpoint not found or unauthorized" });
-    }
-
-    const pings = await prisma.ping.findMany({
-      where: { endpointId: id },
-      orderBy: { createdAt: "desc" },
-      take: 20 
-    });
-
-    return res.json({
-      success: true,
-      data: pings,
-    });
-  } catch (error) {
-    console.error("Failed to fetch pings:", error);
     return res.status(500).json({
       success: false,
       error: "INTERNAL_SERVER_ERROR",
