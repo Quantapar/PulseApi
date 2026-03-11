@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { signIn, useSession } from "../lib/auth";
 import { useNavigate, Link } from "react-router-dom";
+import { Activity } from "lucide-react";
 
 
 export default function Login() {
@@ -47,6 +48,7 @@ export default function Login() {
       <div className="glass-panel auth-card">
         <div className="auth-header">
             <Link to="/" className="logo" style={{ justifyContent: 'center', marginBottom: '1.5rem', textDecoration: 'none' }}>
+                <Activity size={22} color="var(--accent-primary)" />
                 <span style={{ color: 'var(--text-main)' }}>Pulse</span>
                 <span style={{ color: 'var(--accent-primary)' }}>API</span>
             </Link>

@@ -17,6 +17,7 @@ export default function Dashboard() {
   const [endpoints, setEndpoints] = useState<any[]>([]);
   const [newEndpoint, setNewEndpoint] = useState({ name: "", url: "", method: "GET", interval: 60 });
   const [loading, setLoading] = useState(false);
+  const [fetchingEndpoints, setFetchingEndpoints] = useState(true);
 
   useEffect(() => {
     if (session) {
@@ -43,6 +44,8 @@ export default function Dashboard() {
       setError("");
     } catch (err: any) {
       setError(`Error fetching endpoints: ${err.message}`);
+    } finally {
+      setFetchingEndpoints(false);
     }
   };
 
@@ -235,7 +238,11 @@ export default function Dashboard() {
                 </div>
                 
                 <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: '0.75rem', overflowY: 'auto' }}>
-                    {endpoints.length === 0 ? (
+                    {fetchingEndpoints ? (
+                        <div style={{ padding: '2rem', textAlign: 'center', color: 'var(--text-muted)' }}>
+                            Loading endpoints...
+                        </div>
+                    ) : endpoints.length === 0 ? (
                         <div style={{ padding: '2rem', textAlign: 'center', background: 'rgba(255,255,255,0.02)', borderRadius: 'var(--radius-sm)', border: '1px dashed var(--border-subtle)', color: 'var(--text-muted)' }}>
                             No endpoints are currently being monitored. Let's add one.
                         </div>

@@ -4,7 +4,7 @@ API uptime monitoring that actually tells you when things break.
 
 PulseAPI watches your HTTP endpoints on a set interval, logs every response, and sends you an email the moment something goes down. No agents to install, no complex configuration. Add a URL, set the check frequency, and it handles the rest.
 
-![PulseAPI Dashboard](demo.mp4)
+!['PulseAPI'](assets/PulseAPI_landing.png)
 
 ---
 

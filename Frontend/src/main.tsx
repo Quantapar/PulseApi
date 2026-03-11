@@ -11,6 +11,7 @@ import "./index.css";
 
 import Home from "./pages/Home";
 import Settings from "./pages/Settings.tsx";
+import StatusPage from "./pages/StatusPage.tsx";
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
@@ -26,6 +27,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
         <Route path="/logs" element={<Logs />} />
         <Route path="/verify-email" element={<VerifyEmail />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/status/:shareToken" element={<StatusPage />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
