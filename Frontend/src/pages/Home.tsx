@@ -115,7 +115,7 @@ export default function Home() {
         >
           <motion.div variants={itemVariants} className="pipeline-step">
             <div className="step-indicator">
-              <Activity size={16} /> FEATURE 01
+              <Activity size={16} /> Uptime
             </div>
             <h3>Uptime Monitoring</h3>
             <p>Continuous health checks ensure your APIs are always reachable and functioning properly.</p>
@@ -123,23 +123,23 @@ export default function Home() {
 
           <motion.div variants={itemVariants} className="pipeline-step">
             <div className="step-indicator">
-              <Zap size={16} /> FEATURE 02
+              <Zap size={16} /> Latency
             </div>
             <h3>Latency Tracking</h3>
-            <p>Visualize response times and performance trends globally across all endpoints.</p>
+            <p>Visualize response times and performance trends across all your endpoints.</p>
           </motion.div>
 
           <motion.div variants={itemVariants} className="pipeline-step">
             <div className="step-indicator">
-              <Target size={16} /> FEATURE 03
+              <Target size={16} /> Alerts
             </div>
             <h3>Failure Alerts</h3>
-            <p>Get notified immediately via email or webhooks when an endpoint goes down or degradates.</p>
+            <p>Get notified immediately via email when an endpoint goes down or degrades.</p>
           </motion.div>
 
           <motion.div variants={itemVariants} className="pipeline-step">
             <div className="step-indicator">
-              <Gauge size={16} /> FEATURE 04
+              <Gauge size={16} /> Dashboard
             </div>
             <h3>Simple Dashboard</h3>
             <p>All your APIs, metrics, and alerts organized in one clean, developer-friendly view.</p>
