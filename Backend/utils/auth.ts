@@ -48,6 +48,6 @@ export const auth = betterAuth({
             },
         }),
     ],
-    baseURL: "http://localhost:3000",
-    trustedOrigins: ["http://localhost:5174", "http://localhost:5173", "https://pulseapi.quantapar.com"],
+    baseURL: process.env.BETTER_AUTH_URL || "http://localhost:3000",
+    trustedOrigins: ["http://localhost:5174", "http://localhost:5173", "https://pulseapi.quantapar.com", "https://pulse-borols8xa-manu-sharmas-projects-fec69182.vercel.app"],
 });

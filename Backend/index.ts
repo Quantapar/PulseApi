@@ -11,7 +11,7 @@ import { startMonitoringService } from "./src/services/monitor";
 const app = express();
 
 app.use(cors({
-  origin: ["http://localhost:5174", "http://localhost:5173", "https://pulseapi.quantapar.com"],
+  origin: ["http://localhost:5174", "http://localhost:5173", "https://pulseapi.quantapar.com", "https://pulse-borols8xa-manu-sharmas-projects-fec69182.vercel.app"],
   credentials: true, 
 }));
 
