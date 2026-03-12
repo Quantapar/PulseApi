@@ -22,6 +22,8 @@ export default function Dashboard() {
   useEffect(() => {
     if (session) {
       fetchEndpoints();
+      const interval = setInterval(fetchEndpoints, 15000);
+      return () => clearInterval(interval);
     }
   }, [session]);
 
@@ -68,7 +70,8 @@ export default function Dashboard() {
       
       setNewEndpoint({ name: "", url: "", method: "GET", interval: 60 });
       setError("");
-      await fetchEndpoints(); 
+      await fetchEndpoints();
+      setTimeout(fetchEndpoints, 5000);
     } catch (err: any) {
       setError(`Error creating endpoint: ${err.message}`);
     } finally {

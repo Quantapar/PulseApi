@@ -116,7 +116,8 @@ export default function Home() {
             className="btn btn-primary"
             style={{ padding: "1rem 2.5rem", fontSize: "1rem" }}
           >
-            Add Your First Endpoint <ArrowUpRight size={18} className="cta-arrow" />
+            Add Your First Endpoint{" "}
+            <ArrowUpRight size={18} className="cta-arrow" />
           </Link>
         </motion.div>
 

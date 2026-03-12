@@ -59,18 +59,9 @@ export default function Navbar() {
             </div>
           </Link>
         ) : (
-          <>
-            <Link to="/login" className="btn btn-secondary nav-login-btn">
-              Log in
-            </Link>
-            <Link
-              to="/signup"
-              className="btn btn-outline"
-              style={{ padding: "0.65rem 1.4rem" }}
-            >
-              Get Started
-            </Link>
-          </>
+          <Link to="/login" className="btn btn-secondary nav-login-btn">
+            Log in
+          </Link>
         )}
       </div>
     </nav>

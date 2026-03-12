@@ -13,6 +13,7 @@ import {
   Share2,
   Check,
 } from "lucide-react";
+import UptimeBar from "../components/UptimeBar";
 
 export default function Logs() {
   const { data: session, isPending } = useSession();
@@ -714,6 +715,8 @@ export default function Logs() {
                   </div>
                 </div>
               )}
+
+              <UptimeBar pings={pings} />
 
               <h3
                 style={{

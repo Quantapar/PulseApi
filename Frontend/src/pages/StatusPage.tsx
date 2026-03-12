@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Activity, CheckCircle2, XCircle, AlertCircle, Clock } from "lucide-react";
+import UptimeBar from "../components/UptimeBar";
 
 interface Ping {
   id: string;
@@ -154,6 +155,8 @@ export default function StatusPage() {
           </div>
         </div>
 
+
+        <UptimeBar pings={data.pings} />
 
         <h3 style={{ fontSize: "1.1rem", color: "var(--text-main)", marginBottom: "1rem", display: "flex", alignItems: "center", gap: "0.5rem", fontFamily: "var(--font-display)", fontWeight: 600 }}>
           <Clock size={16} /> Recent Checks
