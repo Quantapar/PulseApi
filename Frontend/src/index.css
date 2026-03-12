@@ -190,6 +190,14 @@ a {
   transform: scale(0.98) !important;
 }
 
+.cta-arrow {
+  transition: transform 0.3s var(--easing-smooth);
+}
+
+.btn:hover .cta-arrow {
+  transform: rotate(45deg);
+}
+
 .nav-login-btn {
   font-size: 0.9rem;
   color: var(--text-muted);
