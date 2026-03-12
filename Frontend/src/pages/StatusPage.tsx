@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Activity, CheckCircle2, XCircle, AlertCircle, Clock } from "lucide-react";
 import UptimeBar from "../components/UptimeBar";
+import { API_URL } from "../lib/api";
 
 interface Ping {
   id: string;
@@ -35,7 +36,7 @@ export default function StatusPage() {
 
     const fetchStatus = async () => {
       try {
-        const res = await fetch(`http://localhost:3000/api/public/status/${shareToken}`);
+        const res = await fetch(`${API_URL}/api/public/status/${shareToken}`);
         if (!res.ok) {
           if (res.status === 404) {
             setError("This status page does not exist or has been removed.");

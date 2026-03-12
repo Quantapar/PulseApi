@@ -49,5 +49,5 @@ export const auth = betterAuth({
         }),
     ],
     baseURL: "http://localhost:3000",
-    trustedOrigins: ["http://localhost:5174", "http://localhost:5173"],
+    trustedOrigins: ["http://localhost:5174", "http://localhost:5173", "https://pulseapi.quantapar.com"],
 });

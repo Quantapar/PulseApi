@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useSession, signOut } from "../lib/auth";
 import { useNavigate, Link } from "react-router-dom";
 import { Activity, LogOut, Settings as SettingsIcon, Server, Bell, User, CheckCircle2, AlertCircle } from "lucide-react";
+import { API_URL } from "../lib/api";
 
 export default function Settings() {
   const { data: session, isPending } = useSession();
@@ -21,7 +22,7 @@ export default function Settings() {
 
   const fetchSettings = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/settings", {
+      const res = await fetch(`${API_URL}/api/settings`, {
         headers: { "Content-Type": "application/json" },
         credentials: "include"
       });
@@ -42,7 +43,7 @@ export default function Settings() {
     const newVal = !emailAlerts;
     setEmailAlerts(newVal);
     try {
-      await fetch("http://localhost:3000/api/settings", {
+      await fetch(`${API_URL}/api/settings`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

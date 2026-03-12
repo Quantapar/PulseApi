@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useSession, signOut } from "../lib/auth";
 import { useNavigate, Link } from "react-router-dom";
 import { Activity, LogOut, Settings, Server, AlertCircle, X, CheckCircle2, XCircle } from "lucide-react";
+import { API_URL } from "../lib/api";
 
 export default function Dashboard() {
   const { data: session, isPending } = useSession();
@@ -36,7 +37,7 @@ export default function Dashboard() {
 
   const fetchEndpoints = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/endpoints", {
+      const res = await fetch(`${API_URL}/api/endpoints`, {
         headers: { "Content-Type": "application/json" },
         credentials: "include"
       });
@@ -60,7 +61,7 @@ export default function Dashboard() {
     
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:3000/api/endpoints", {
+      const res = await fetch(`${API_URL}/api/endpoints`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -83,7 +84,7 @@ export default function Dashboard() {
     if (!confirm("Are you sure you want to delete this endpoint and all its history?")) return;
     
     try {
-      const res = await fetch(`http://localhost:3000/api/endpoints/${id}`, {
+      const res = await fetch(`${API_URL}/api/endpoints/${id}`, {
         method: "DELETE",
         credentials: "include"
       });

@@ -14,6 +14,7 @@ import {
   Check,
 } from "lucide-react";
 import UptimeBar from "../components/UptimeBar";
+import { API_URL } from "../lib/api";
 
 export default function Logs() {
   const { data: session, isPending } = useSession();
@@ -54,7 +55,7 @@ export default function Logs() {
 
   const fetchEndpoints = async () => {
     try {
-      const res = await fetch("http://localhost:3000/api/endpoints", {
+      const res = await fetch(`${API_URL}/api/endpoints`, {
         headers: { "Content-Type": "application/json" },
         credentials: "include",
       });
@@ -76,7 +77,7 @@ export default function Logs() {
     setLoading(true);
     try {
       const detailsRes = await fetch(
-        `http://localhost:3000/api/endpoints/${id}`,
+        `${API_URL}/api/endpoints/${id}`,
         {
           credentials: "include",
         },
@@ -86,7 +87,7 @@ export default function Logs() {
       setEndpointDetails(detailsData.data);
 
       const pingsRes = await fetch(
-        `http://localhost:3000/api/endpoints/${id}/pings`,
+        `${API_URL}/api/endpoints/${id}/pings`,
         {
           credentials: "include",
         },
@@ -115,7 +116,7 @@ export default function Logs() {
     setShareLoading(true);
     try {
       const res = await fetch(
-        `http://localhost:3000/api/endpoints/${selectedEndpointId}/share`,
+        `${API_URL}/api/endpoints/${selectedEndpointId}/share`,
         {
           credentials: "include",
         },
