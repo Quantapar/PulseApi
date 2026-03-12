@@ -1,0 +1,20 @@
+{
+  "status": "commited",
+  "type": "frontend",
+  "scope": "codebase",
+  "localEndpoint": "http://localhost:5173",
+  "loginUser": "gadiri6594@devlug.com",
+  "loginPassword": "45454545",
+  "executionArgs": {
+    "projectName": "PulseAPI",
+    "projectPath": "/Users/manu/Projects/PulseAPI",
+    "testIds": [],
+    "additionalInstruction": "This is frontend UI testing. The frontend runs on localhost:5173. It is a React + Vite app. Test the UI pages and interactions.",
+    "serverMode": "development",
+    "envs": {
+      "API_KEY": "sk-user-HHTSsS0sXjJkW7fIpHx1HED1BjSHVDZU40_Rkoh4ZDqwB1UMmzNlOKfdNdNgmFqaTqSTg9EB-jKkO2x1AUQENDa3iSshFGaZ9fhEV4sfiAm_PNAmrbma2I8zrzZrJhP14jw"
+    }
+  },
+  "serverPort": 63391,
+  "proxy": "http://eea163d8-aa1a-44e8-8232-d2317c9b026b:jHZvLkl1VVt4XSJZCVnJovGvAXyWipKl@tun.testsprite.com:8080"
+}

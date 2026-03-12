@@ -1,0 +1,52 @@
+[
+  {
+    "id": "TC001",
+    "title": "post api auth sign up email",
+    "description": "Test user registration with valid email, password, and name to receive a successful response with user and session data."
+  },
+  {
+    "id": "TC002",
+    "title": "post api auth sign in email",
+    "description": "Test user login with correct email and password to receive user and session data; also test login with incorrect password to receive 401 invalid credentials error."
+  },
+  {
+    "id": "TC003",
+    "title": "post api auth sign in otp",
+    "description": "Test OTP sign-in flow by sending a valid OTP for a registered email and receiving user and session data."
+  },
+  {
+    "id": "TC004",
+    "title": "post api auth send verification otp",
+    "description": "Test sending OTP verification email to a valid email address and receiving success confirmation."
+  },
+  {
+    "id": "TC005",
+    "title": "post api auth sign out",
+    "description": "Test signing out with a valid session cookie to receive success confirmation and verify session destruction."
+  },
+  {
+    "id": "TC006",
+    "title": "get api auth session",
+    "description": "Test retrieving current session information with and without a valid session cookie to verify session presence or null."
+  },
+  {
+    "id": "TC007",
+    "title": "get api dashboard",
+    "description": "Test fetching authenticated user's profile data with valid session cookie and verify 401 unauthorized response without authentication."
+  },
+  {
+    "id": "TC008",
+    "title": "get api settings",
+    "description": "Test retrieving user settings with valid authentication and verify unauthorized access without session."
+  },
+  {
+    "id": "TC009",
+    "title": "put api settings",
+    "description": "Test updating user settings including name and email alert toggle with valid authentication and verify validation and unauthorized errors."
+  },
+  {
+    "id": "TC010",
+    "title": "post api endpoints",
+    "description": "Test creating a new monitored endpoint with valid data and session cookie, and verify validation errors and unauthorized access."
+  }
+]
