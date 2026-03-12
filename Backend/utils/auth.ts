@@ -28,6 +28,7 @@ export const auth = betterAuth({
     },
     plugins: [
         emailOTP({
+            autoSignInAfterVerification: true,
             async sendVerificationOTP({ email, otp, type }) {
                 let subject = "Your Verification Code";
                 if (type === "sign-in") subject = "Sign in to PulseAPI";
