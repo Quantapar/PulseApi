@@ -34,10 +34,15 @@ publicRouter.get("/status/:shareToken", async (req, res) => {
         ? parseFloat(((upPings / totalPings) * 100).toFixed(2))
         : 0;
 
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
     const pings = await prisma.ping.findMany({
-      where: { endpointId: endpoint.id },
+      where: {
+        endpointId: endpoint.id,
+        createdAt: { gte: thirtyDaysAgo },
+      },
       orderBy: { createdAt: "desc" },
-      take: 30,
     });
 
     return res.json({

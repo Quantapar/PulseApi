@@ -131,10 +131,15 @@ endpointRouter.get("/:id/pings", async (req, res) => {
         .json({ success: false, error: "Endpoint not found or unauthorized" });
     }
 
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
     const pings = await prisma.ping.findMany({
-      where: { endpointId: id },
+      where: {
+        endpointId: id,
+        createdAt: { gte: thirtyDaysAgo },
+      },
       orderBy: { createdAt: "desc" },
-      take: 20,
     });
 
     return res.json({

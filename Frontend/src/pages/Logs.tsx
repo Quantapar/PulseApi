@@ -24,6 +24,7 @@ export default function Logs() {
   const [pings, setPings] = useState<any[]>([]);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [initialLoading, setInitialLoading] = useState(true);
   const [shareLoading, setShareLoading] = useState(false);
   const [copied, setCopied] = useState(false);
   const [shareTokenCache, setShareTokenCache] = useState<
@@ -66,6 +67,8 @@ export default function Logs() {
       }
     } catch (err: any) {
       setError(`Error fetching endpoints: ${err.message}`);
+    } finally {
+      setInitialLoading(false);
     }
   };
 
@@ -481,7 +484,7 @@ export default function Logs() {
             </div>
           )}
 
-          {loading ? (
+          {loading || initialLoading ? (
             <div
               style={{
                 display: "flex",
@@ -808,7 +811,7 @@ export default function Logs() {
                       </tr>
                     </thead>
                     <tbody>
-                      {pings.map((ping) => (
+                      {pings.slice(0, 20).map((ping) => (
                         <tr
                           key={ping.id}
                           style={{

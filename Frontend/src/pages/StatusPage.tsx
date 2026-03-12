@@ -178,7 +178,7 @@ export default function StatusPage() {
                 </tr>
               </thead>
               <tbody>
-                {data.pings.map((ping) => (
+                {data.pings.slice(0, 20).map((ping) => (
                   <tr key={ping.id} style={{ borderBottom: "1px solid var(--border-subtle)", transition: "background 0.2s" }} onMouseOver={(e) => e.currentTarget.style.background = "rgba(255,255,255,0.02)"} onMouseOut={(e) => e.currentTarget.style.background = "transparent"}>
                     <td style={{ padding: "1rem 1.5rem" }}>
                       <div style={{ display: "inline-flex", alignItems: "center", gap: "0.35rem", background: ping.status === "UP" ? "rgba(82, 179, 101, 0.05)" : "rgba(239, 68, 68, 0.05)", color: ping.status === "UP" ? "var(--accent-primary)" : "#ef4444", border: `1px solid ${ping.status === "UP" ? "rgba(82, 179, 101, 0.2)" : "rgba(239, 68, 68, 0.2)"}`, padding: "0.25rem 0.5rem", borderRadius: "4px", fontSize: "0.75rem", fontWeight: 700, fontFamily: "var(--font-mono)", letterSpacing: "0.05em" }}>
@@ -206,7 +206,6 @@ export default function StatusPage() {
         <div style={{ marginTop: "3rem", textAlign: "center", color: "var(--text-dim)", fontSize: "0.8rem", fontFamily: "var(--font-mono)" }}>
           <span>Powered by </span>
           <Link to="/" style={{ color: "var(--accent-primary)", textDecoration: "none" }}>PulseAPI</Link>
-          <span> — Auto-refreshes every 30s</span>
         </div>
       </div>
     </div>
