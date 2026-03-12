@@ -39,8 +39,6 @@ export default function Login() {
     });
   };
 
-  if (isPending) return null; 
-
   return (
     <div className="auth-container">
       <div className="bg-glow bg-glow-1"></div>

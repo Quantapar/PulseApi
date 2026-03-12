@@ -47,8 +47,6 @@ export default function Signup() {
     });
   };
 
-  if (isPending && !isSigningUp.current) return null;
-
   return (
     <div className="auth-container">
       <div className="bg-glow bg-glow-1"></div>

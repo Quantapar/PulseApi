@@ -57,7 +57,11 @@ export default function Navbar() {
             </div>
           </Link>
         ) : (
-          <Link to="/login" className="btn btn-primary" style={{ padding: "0.6rem 1.5rem", fontSize: "0.9rem" }}>
+          <Link
+            to="/login"
+            className="btn btn-primary"
+            style={{ padding: "0.6rem 1.5rem", fontSize: "0.9rem" }}
+          >
             Log in
           </Link>
         )}
