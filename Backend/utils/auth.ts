@@ -20,6 +20,15 @@ export const auth = betterAuth({
             maxAge: 5 * 60,
         },
     },
+    advanced: {
+        crossSubDomainCookies: {
+            enabled: false,
+        },
+        defaultCookieAttributes: {
+            sameSite: "none",
+            secure: true,
+        },
+    },
     socialProviders: {
         google: {
             clientId: process.env.GOOGLE_CLIENT_ID as string,

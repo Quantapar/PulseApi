@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useSession } from "../lib/auth";
 
 export default function Navbar() {
-  const { data: session, isPending } = useSession();
+  const { data: session } = useSession();
 
   return (
     <nav className="landing-nav">
@@ -22,9 +22,7 @@ export default function Navbar() {
         </a>
       </div>
       <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
-        {isPending ? (
-          <div style={{ width: "40px", height: "40px" }} />
-        ) : session ? (
+        {session ? (
           <Link to="/dashboard" style={{ textDecoration: "none" }}>
             <div
               style={{
