@@ -2,7 +2,7 @@
 
 Real-time API uptime monitoring. Add an endpoint. Pulse handles the rest.
 
-![PulseAPI](/Frontend/src/assets/PusleAPI.png)
+![PulseAPI](Frontend/src/assets/PusleAPI.png)
 
 ## What is PulseAPI?
 
