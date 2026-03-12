@@ -1,131 +1,100 @@
 # PulseAPI
 
-API uptime monitoring that actually tells you when things break.
+Real-time API uptime monitoring. Add an endpoint. Pulse handles the rest.
 
-PulseAPI watches your HTTP endpoints on a set interval, logs every response, and sends you an email the moment something goes down. No agents to install, no complex configuration. Add a URL, set the check frequency, and it handles the rest.
+![PulseAPI](/Frontend/src/assets/PusleAPI.png)
 
-!['PulseAPI'](assets/PulseAPI_landing.png)
+## What is PulseAPI?
 
----
+PulseAPI is a full-stack API monitoring platform that continuously checks your HTTP endpoints and alerts you the moment something goes down. It tracks response times, status codes, and uptime history — giving developers a single dashboard to understand the health of their APIs.
 
-## What it does
+Built as a solo project for the [TestSprite Hackathon](https://www.testsprite.com/hackathon).
 
-- Monitors any public HTTP/HTTPS endpoint at configurable intervals (default: 60s)
-- Records status codes, response times, and uptime percentage for every endpoint
-- Sends email alerts when an endpoint goes down, and a recovery notice when it comes back
-- Supports Google OAuth and email/password authentication
-- Per-user endpoint management with activity logs and historical ping data
+## Features
+
+- **Uptime Monitoring** — Health checks at configurable intervals (1min / 5min / 1hr)
+- **30-Day Uptime Chart** — Visual day-by-day uptime bars for every endpoint
+- **Email Alerts** — Instant down/recovery notifications via Resend
+- **Shareable Status Pages** — One-click public status page per endpoint
+- **Activity Logs** — Full ping history with status codes, response times, and timestamps
+- **Auth** — Email/password with OTP verification + Google OAuth, seamless post-signup flow
+- **Auto-Refresh** — Dashboard polls for live status updates without manual reload
 
 ## Tech Stack
 
-**Frontend:** React 19, TypeScript, Vite, Tailwind CSS, Framer Motion, React Router v7
+| Layer    | Tech                                                      |
+| -------- | --------------------------------------------------------- |
+| Frontend | React, TypeScript, Vite, Framer Motion, React Router      |
+| Backend  | Express, TypeScript, Prisma ORM, Better Auth, Resend, Zod |
+| Database | PostgreSQL                                                |
+| Runtime  | Bun                                                       |
 
-**Backend:** Express 5, TypeScript, Prisma ORM, PostgreSQL (Neon), Better Auth, Resend, Zod
+## How It Works
 
-**Runtime:** Bun
+1. Add your API endpoint and set a check interval
+2. Pulse pings it automatically and records every response
+3. If it goes down, you get an email. When it recovers, another email
+4. View uptime history, response times, and status on your dashboard or a public status page
 
 ## Project Structure
 
 ```
 PulseAPI/
 ├── Backend/
-│   ├── index.ts                  # Express server entry point
-│   ├── db.ts                     # Prisma client setup
+│   ├── index.ts                  # Express server entry
 │   ├── prisma/schema.prisma      # Database schema
 │   ├── src/
-│   │   ├── routes/
-│   │   │   ├── userRouter.ts     # User settings and dashboard
-│   │   │   └── endpointRouter.ts # Endpoint CRUD and ping history
-│   │   ├── services/
-│   │   │   └── monitor.ts        # Background monitoring loop + email alerts
-│   │   ├── middleware/            # Auth token validation
+│   │   ├── routes/               # API routes (endpoints, auth, public status)
+│   │   ├── services/monitor.ts   # Background monitoring loop + email alerts
+│   │   ├── middleware/            # Session validation
 │   │   └── validator/            # Zod request schemas
-│   └── utils/auth.ts             # Better Auth config (Google OAuth, OTP)
+│   └── utils/auth.ts             # Better Auth config (OAuth, OTP, sessions)
 ├── Frontend/
 │   └── src/
-│       ├── pages/
-│       │   ├── Home.tsx           # Landing page
-│       │   ├── Dashboard.tsx      # Endpoint management
-│       │   ├── Logs.tsx           # Ping history and uptime stats
-│       │   ├── Settings.tsx       # User preferences, email toggle
-│       │   ├── Login.tsx          # Email/password + Google login
-│       │   ├── Signup.tsx         # Registration
-│       │   ├── VerifyEmail.tsx    # OTP verification
-│       │   └── ForgotPassword.tsx # Password reset
-│       ├── components/
-│       └── lib/                   # Auth client config
-├── testsprite_tests/              # AI-generated test cases (TestSprite)
+│       ├── pages/                # All pages (Dashboard, Logs, StatusPage, Auth)
+│       ├── components/           # Shared components (Navbar, UptimeBar)
+│       └── lib/auth.ts           # Auth client
+├── testsprite_tests/             # AI-generated test cases (TestSprite MCP)
 └── README.md
 ```
 
-## How Monitoring Works
+## Testing
 
-The backend runs a polling loop every 5 seconds. For each endpoint, it checks whether enough time has passed since the last ping based on that endpoint's configured interval. If a check is due:
-
-1. Sends an HTTP request to the endpoint URL with a 10-second timeout
-2. Compares the response status code against the expected status
-3. Stores the result (status, response time, status code) as a Ping record
-4. If the endpoint just went down (was not already marked DOWN), sends an alert email to the owner
-5. If the endpoint just recovered (was DOWN, now UP), sends a recovery email
-6. Updates the endpoint's current status in the database
-
-Alerts only fire on state transitions to avoid spamming inboxes during prolonged outages.
-
-## Database Schema
-
-Five core models:
-
-- **User** -- account info, email alert preference, linked endpoints
-- **Endpoint** -- URL, method, expected status, check interval, current status
-- **Ping** -- individual check result (status, response time, status code, timestamp)
-- **Session / Account** -- auth sessions and OAuth provider data
-- **ApiKey** -- API key management per user
+Test cases are generated using [TestSprite MCP](https://testsprite.com) — an AI testing agent that auto-generates comprehensive test suites. All generated tests live in the `testsprite_tests/` directory covering API endpoint validation, monitoring service behavior, and authentication flows.
 
 ## Local Setup
 
-### Prerequisites
-
-- [Bun](https://bun.sh) installed
-- PostgreSQL database
-- [Resend](https://resend.com) API key for email alerts
-
-### Backend
+**Prerequisites:** [Bun](https://bun.sh), PostgreSQL, [Resend](https://resend.com) API key
 
 ```bash
+# Backend
 cd Backend
-cp .env.example .env   # fill in your database URL, Resend key, auth secrets
+cp .env.example .env    # fill in your values
 bun install
 bunx prisma generate
 bunx prisma db push
 bun run index.ts
-```
 
-### Frontend
-
-```bash
+# Frontend (new terminal)
 cd Frontend
 bun install
 bun run dev
 ```
 
-The frontend runs on `http://localhost:5173` and the backend on `http://localhost:3000`.
+Frontend: `http://localhost:5173` — Backend: `http://localhost:3000`
 
 ### Environment Variables
 
 ```
-DATABASE_URL=           # PostgreSQL connection string
+DATABASE_URL=
 PORT=3000
-BETTER_AUTH_SECRET=     # Random secret for session signing
+BETTER_AUTH_SECRET=
 BETTER_AUTH_URL=http://localhost:3000
-RESEND_API_KEY=         # From resend.com dashboard
-RESEND_FROM_EMAIL=      # Verified sender (e.g. alerts@yourdomain.com)
-GOOGLE_CLIENT_ID=       # Google OAuth (optional)
-GOOGLE_CLIENT_SECRET=   # Google OAuth (optional)
+RESEND_API_KEY=
+RESEND_FROM_EMAIL=
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
 ```
-
-## Testing
-
-Test cases are generated using [TestSprite MCP](https://testsprite.com) and located in the `testsprite_tests/` directory. These cover API endpoint validation, monitoring service behavior, and authentication flows.
 
 ## License
 
