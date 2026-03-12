@@ -581,13 +581,13 @@ a {
 }
 
 .auth-container {
-  min-height: 100vh;
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 4rem 1rem;
+  padding: 1rem;
   position: relative;
-  margin-top: 4rem;
+  overflow: hidden;
 }
 
 .auth-card {
@@ -988,8 +988,7 @@ select.input-field {
   }
 
   .auth-container {
-    padding: 2rem 1rem;
-    margin-top: 2rem;
+    padding: 1rem;
   }
 
   .toast-notification {

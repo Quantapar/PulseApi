@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { authClient, signUp, signIn, useSession } from "../lib/auth";
 import { useNavigate, Link } from "react-router-dom";
 import { Activity } from "lucide-react";
@@ -8,33 +8,35 @@ export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const isSigningUp = useRef(false);
   const navigate = useNavigate();
 
   const { data: session, isPending } = useSession();
 
   useEffect(() => {
-    if (!isPending && session) {
+    if (!isPending && session && !isSigningUp.current) {
       navigate("/dashboard");
     }
   }, [session, isPending, navigate]);
 
-
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    isSigningUp.current = true;
     const { error: signUpErr } = await signUp.email({
       email,
       password,
       name,
     });
     if (signUpErr) {
+      isSigningUp.current = false;
       setError(signUpErr.message || "An unknown error occurred");
     } else {
       await authClient.emailOtp.sendVerificationOtp({
         email,
         type: "email-verification",
       });
-      navigate("/verify-email", { state: { email } });
+      navigate("/verify-email", { state: { email, password } });
     }
   };
 
@@ -45,7 +47,7 @@ export default function Signup() {
     });
   };
 
-  if (isPending) return null;
+  if (isPending && !isSigningUp.current) return null;
 
   return (
     <div className="auth-container">

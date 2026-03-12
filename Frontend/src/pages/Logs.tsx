@@ -12,7 +12,6 @@ import {
   Clock,
   Share2,
   Check,
-  Copy,
 } from "lucide-react";
 
 export default function Logs() {

@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { authClient } from "../lib/auth";
+import { authClient, signIn } from "../lib/auth";
 import { useNavigate, useLocation, Link } from "react-router-dom";
 import { Activity, Mail } from "lucide-react";
 
 export default function VerifyEmail() {
   const location = useLocation();
   const passedEmail = (location.state as any)?.email || "";
+  const passedPassword = (location.state as any)?.password || "";
   const [email, setEmail] = useState(passedEmail);
   const [otp, setOtp] = useState("");
   const [error, setError] = useState("");
@@ -25,13 +26,14 @@ export default function VerifyEmail() {
       otp,
     });
 
-    setLoading(false);
-
     if (verifyErr) {
+      setLoading(false);
       setError(verifyErr.message || "Failed to verify email. Please check your OTP.");
     } else {
-      setMessage("Email verified successfully!");
-      setTimeout(() => navigate("/dashboard"), 1000);
+      if (passedPassword) {
+        await signIn.email({ email, password: passedPassword });
+      }
+      navigate("/dashboard");
     }
   };
 
@@ -100,7 +102,7 @@ export default function VerifyEmail() {
             <label>Verification Code</label>
             <input
               type="text"
-              placeholder="Enter 6-digit code"
+              placeholder="******"
               value={otp}
               onChange={(e) => setOtp(e.target.value)}
               required
