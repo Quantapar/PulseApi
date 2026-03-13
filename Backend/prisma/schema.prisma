@@ -36,8 +36,9 @@ model Endpoint {
 
   shareToken     String?  @unique @default(uuid())
 
-  status         String   @default("UNKNOWN")
-  lastCheckedAt  DateTime?
+  status              String   @default("UNKNOWN")
+  consecutiveFailures Int      @default(0)
+  lastCheckedAt       DateTime?
 
   userId         String
   user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)

@@ -42,7 +42,17 @@ export async function pingEndpoint(endpoint: any) {
     },
   });
 
-  if (status === "DOWN" && endpoint.status !== "DOWN") {
+  // Track consecutive failures — only alert after 3 in a row
+  const FAILURE_THRESHOLD = 3;
+  let consecutiveFailures = endpoint.consecutiveFailures || 0;
+
+  if (status === "DOWN") {
+    consecutiveFailures += 1;
+  } else {
+    consecutiveFailures = 0;
+  }
+
+  if (status === "DOWN" && consecutiveFailures >= FAILURE_THRESHOLD && endpoint.status !== "DOWN") {
     try {
       const user = await prisma.user.findUnique({
         where: { id: endpoint.userId },
@@ -138,10 +148,16 @@ export async function pingEndpoint(endpoint: any) {
     }
   }
 
+  // Only flip status to DOWN after reaching the failure threshold
+  const finalStatus = (status === "DOWN" && consecutiveFailures < FAILURE_THRESHOLD)
+    ? endpoint.status  // keep previous status until threshold is reached
+    : status;
+
   await prisma.endpoint.update({
     where: { id: endpoint.id },
     data: {
-      status,
+      status: finalStatus,
+      consecutiveFailures,
       lastCheckedAt: new Date(),
     },
   });
