@@ -35,12 +35,12 @@ export default function Login() {
     }
   };
 
-  const handleGoogleSignIn = async () => {
-    await signIn.social({
-      provider: "google",
-      callbackURL: `${window.location.origin}/dashboard`,
-    });
-  };
+  // const handleGoogleSignIn = async () => {
+  //   await signIn.social({
+  //     provider: "google",
+  //     callbackURL: `${window.location.origin}/dashboard`,
+  //   });
+  // };
 
   return (
     <div className="auth-container">
@@ -74,6 +74,7 @@ export default function Login() {
           <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '0.5rem' }} disabled={loading}>{loading ? "Signing in..." : "Sign In"}</button>
         </form>
         
+        {/* Google OAuth - commented out until VM with stable backend is set up
         <div style={{ margin: "2rem 0", display: 'flex', alignItems: 'center', gap: '1rem', color: 'var(--text-secondary)' }}>
            <hr style={{ flex: 1, borderColor: 'var(--border-color)' }} />
            <span style={{ fontSize: '0.85rem' }}>OR</span>
@@ -84,6 +85,7 @@ export default function Login() {
           <img src="https://www.svgrepo.com/show/475656/google-color.svg" width={20} alt="Google" />
           Sign In with Google
         </button>
+        */}
 
         <div className="auth-footer">
           Don&apos;t have an account? <Link to="/signup">Sign up here</Link>

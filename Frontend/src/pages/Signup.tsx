@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { authClient, signUp, signIn, useSession } from "../lib/auth";
+import { authClient, signUp, useSession } from "../lib/auth";
 import { useNavigate, Link } from "react-router-dom";
 import { Activity } from "lucide-react";
 import { API_URL } from "../lib/api";
@@ -77,12 +77,12 @@ export default function Signup() {
     }
   };
 
-  const handleGoogleSignUp = async () => {
-    await signIn.social({
-      provider: "google",
-      callbackURL: `${window.location.origin}/dashboard`,
-    });
-  };
+  // const handleGoogleSignUp = async () => {
+  //   await signIn.social({
+  //     provider: "google",
+  //     callbackURL: `${window.location.origin}/dashboard`,
+  //   });
+  // };
 
   return (
     <div className="auth-container">
@@ -151,6 +151,7 @@ export default function Signup() {
           </button>
         </form>
 
+        {/* Google OAuth - commented out until VM with stable backend is set up
         <div
           style={{
             margin: "2rem 0",
@@ -183,6 +184,7 @@ export default function Signup() {
           />
           Sign Up with Google
         </button>
+        */}
 
         <div className="auth-footer">
           Already have an account? <Link to="/login">Sign in here</Link>

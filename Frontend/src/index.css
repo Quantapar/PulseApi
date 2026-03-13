@@ -38,7 +38,7 @@
 
 html {
   scroll-behavior: smooth;
-  overscroll-behavior: none;
+  overscroll-behavior-y: none;
 }
 
 body {
@@ -174,6 +174,7 @@ a {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
   gap: 0.5rem;
   padding: 0.75rem 1.5rem;
   border-radius: 99px;
