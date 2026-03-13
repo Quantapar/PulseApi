@@ -4,6 +4,10 @@
   "installCommand": "bun install",
   "rewrites": [
     {
+      "source": "/api/:path*",
+      "destination": "https://pulseapi-1y1i.onrender.com/api/:path*"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
