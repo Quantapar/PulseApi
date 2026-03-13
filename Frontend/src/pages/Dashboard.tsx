@@ -101,7 +101,7 @@ export default function Dashboard() {
     navigate("/login");
   };
 
-  if (!session && !isPending) return null; 
+  if (isPending || !session) return null;
 
   return (
     <div style={{ display: 'flex', height: '100vh', flexDirection: 'column', background: 'var(--bg-base)', position: 'relative', overflow: 'hidden' }}>

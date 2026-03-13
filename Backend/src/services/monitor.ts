@@ -202,8 +202,11 @@ export function startMonitoringService() {
   // Keep server awake on Render free tier (ping every 14 min)
   const baseURL = process.env.BETTER_AUTH_URL;
   if (baseURL && baseURL.includes("onrender.com")) {
-    setInterval(() => {
-      fetch(baseURL).catch(() => {});
-    }, 14 * 60 * 1000);
+    setInterval(
+      () => {
+        fetch(baseURL).catch(() => {});
+      },
+      14 * 60 * 1000,
+    );
   }
 }
