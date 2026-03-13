@@ -11,10 +11,17 @@ import { prisma } from "./db";
 
 const app = express();
 
-app.use(cors({
-  origin: ["http://localhost:5174", "http://localhost:5173", "https://pulseapi.quantapar.com", "https://pulse-borols8xa-manu-sharmas-projects-fec69182.vercel.app"],
-  credentials: true, 
-}));
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5174",
+      "http://localhost:5173",
+      "https://pulseapi.quantapar.com",
+      "https://pulse-borols8xa-manu-sharmas-projects-fec69182.vercel.app",
+    ],
+    credentials: true,
+  }),
+);
 
 app.all(/^\/api\/auth(?:\/.*)?$/, (req, res) => {
   return toNodeHandler(auth)(req, res);
