@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { authClient, signUp, signIn, useSession } from "../lib/auth";
 import { useNavigate, Link } from "react-router-dom";
 import { Activity } from "lucide-react";
+import { API_URL } from "../lib/api";
 
 export default function Signup() {
   const [name, setName] = useState("");
@@ -24,6 +25,23 @@ export default function Signup() {
     e.preventDefault();
     setError("");
     setLoading(true);
+
+    try {
+      const checkRes = await fetch(`${API_URL}/api/check-email`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+      const { exists } = await checkRes.json();
+      if (exists) {
+        setLoading(false);
+        setError("An account with this email already exists. Please sign in instead.");
+        return;
+      }
+    } catch {
+      // If check fails, let signup proceed and handle errors there
+    }
+
     isSigningUp.current = true;
     const { data, error: signUpErr } = await signUp.email({
       email,
