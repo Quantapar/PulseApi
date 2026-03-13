@@ -1084,9 +1084,16 @@ select.input-field {
   }
 
   .hero {
-    padding-top: 18vh;
+    padding-top: 0;
+    min-height: auto;
+    justify-content: flex-start;
     padding-left: 1rem;
     padding-right: 1rem;
+    padding-bottom: 4rem;
+  }
+
+  .hero h1 {
+    margin-top: 8rem;
   }
 
   .hero h1 br {
