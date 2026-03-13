@@ -1155,4 +1155,8 @@ select.input-field {
     font-size: 0.95rem;
     padding: 1.25rem 0;
   }
+
+  .container-lg {
+    padding: 0 1.25rem;
+  }
 }
