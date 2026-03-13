@@ -25,7 +25,7 @@ export default function Signup() {
     setError("");
     setLoading(true);
     isSigningUp.current = true;
-    const { error: signUpErr } = await signUp.email({
+    const { data, error: signUpErr } = await signUp.email({
       email,
       password,
       name,
@@ -33,7 +33,23 @@ export default function Signup() {
     if (signUpErr) {
       isSigningUp.current = false;
       setLoading(false);
-      setError(signUpErr.message || "An unknown error occurred");
+      const msg = signUpErr.message || "An unknown error occurred";
+      if (
+        msg.toLowerCase().includes("already") ||
+        msg.toLowerCase().includes("exists")
+      ) {
+        setError(
+          "An account with this email already exists. Please sign in instead.",
+        );
+      } else {
+        setError(msg);
+      }
+    } else if (!data) {
+      isSigningUp.current = false;
+      setLoading(false);
+      setError(
+        "An account with this email already exists. Please sign in instead.",
+      );
     } else {
       await authClient.emailOtp.sendVerificationOtp({
         email,
