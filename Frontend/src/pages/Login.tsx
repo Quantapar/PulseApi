@@ -8,6 +8,7 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   
   const { data: session, isPending } = useSession();
@@ -21,12 +22,14 @@ export default function Login() {
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    setLoading(true);
     const { error: signInErr } = await signIn.email({
       email,
       password,
     });
     if (signInErr) {
       setError(signInErr.message || "An error occurred");
+      setLoading(false);
     } else {
       navigate("/dashboard");
     }
@@ -68,7 +71,7 @@ export default function Login() {
             </div>
             <input type="password" placeholder="••••••••" value={password} onChange={(e) => setPassword(e.target.value)} required />
           </div>
-          <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '0.5rem' }}>Sign In</button>
+          <button type="submit" className="btn btn-primary" style={{ width: '100%', marginTop: '0.5rem' }} disabled={loading}>{loading ? "Signing in..." : "Sign In"}</button>
         </form>
         
         <div style={{ margin: "2rem 0", display: 'flex', alignItems: 'center', gap: '1rem', color: 'var(--text-secondary)' }}>

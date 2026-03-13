@@ -8,6 +8,7 @@ export default function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const isSigningUp = useRef(false);
   const navigate = useNavigate();
 
@@ -22,6 +23,7 @@ export default function Signup() {
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    setLoading(true);
     isSigningUp.current = true;
     const { error: signUpErr } = await signUp.email({
       email,
@@ -30,6 +32,7 @@ export default function Signup() {
     });
     if (signUpErr) {
       isSigningUp.current = false;
+      setLoading(false);
       setError(signUpErr.message || "An unknown error occurred");
     } else {
       await authClient.emailOtp.sendVerificationOtp({
@@ -108,8 +111,9 @@ export default function Signup() {
             type="submit"
             className="btn btn-primary"
             style={{ width: "100%", marginTop: "0.5rem" }}
+            disabled={loading}
           >
-            Sign Up
+            {loading ? "Signing up..." : "Sign Up"}
           </button>
         </form>
 
