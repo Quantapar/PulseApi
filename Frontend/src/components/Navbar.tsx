@@ -87,6 +87,10 @@ export default function Navbar() {
         >
           <X size={24} />
         </button>
+        <Link to="/" className="logo" onClick={() => setMobileOpen(false)} style={{ marginBottom: "1rem" }}>
+          <span style={{ color: "var(--text-main)" }}>Pulse</span>
+          <span style={{ color: "var(--accent-primary)" }}>API</span>
+        </Link>
         <a href="#features" onClick={() => setMobileOpen(false)}>Features</a>
         <a href="#demo" onClick={() => setMobileOpen(false)}>Demo</a>
         <a
