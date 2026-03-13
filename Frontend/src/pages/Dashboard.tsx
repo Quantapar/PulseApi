@@ -33,6 +33,8 @@ export default function Dashboard() {
   });
   const [loading, setLoading] = useState(false);
   const [fetchingEndpoints, setFetchingEndpoints] = useState(true);
+  const [deleteTarget, setDeleteTarget] = useState<{ id: string; name: string } | null>(null);
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     if (session) {
@@ -94,24 +96,21 @@ export default function Dashboard() {
     }
   };
 
-  const handleDeleteEndpoint = async (id: string) => {
-    if (
-      !confirm(
-        "Are you sure you want to delete this endpoint and all its history?",
-      )
-    )
-      return;
-
+  const confirmDelete = async () => {
+    if (!deleteTarget) return;
+    setDeleting(true);
     try {
-      const res = await fetch(`${API_URL}/api/endpoints/${id}`, {
+      const res = await fetch(`${API_URL}/api/endpoints/${deleteTarget.id}`, {
         method: "DELETE",
         credentials: "include",
       });
       if (!res.ok) throw new Error("Failed to delete endpoint");
-
       await fetchEndpoints();
     } catch (err: any) {
       setError(`Error deleting endpoint: ${err.message}`);
+    } finally {
+      setDeleting(false);
+      setDeleteTarget(null);
     }
   };
 
@@ -655,7 +654,7 @@ export default function Dashboard() {
                         </div>
                       </div>
                       <button
-                        onClick={() => handleDeleteEndpoint(ep.id)}
+                        onClick={() => setDeleteTarget({ id: ep.id, name: ep.name })}
                         style={{
                           background: "transparent",
                           color: "#ef4444",
@@ -690,6 +689,92 @@ export default function Dashboard() {
           </div>
         </main>
       </div>
+
+      {deleteTarget && (
+        <div
+          style={{
+            position: "fixed",
+            inset: 0,
+            background: "rgba(0, 0, 0, 0.6)",
+            backdropFilter: "blur(4px)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            zIndex: 1000,
+          }}
+          onClick={() => !deleting && setDeleteTarget(null)}
+        >
+          <div
+            className="glass-panel"
+            style={{
+              padding: "2rem",
+              maxWidth: "420px",
+              width: "90%",
+              animation: "fadeIn 0.15s ease-out",
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "1rem" }}>
+              <div style={{
+                width: "40px",
+                height: "40px",
+                borderRadius: "var(--radius-sm)",
+                background: "rgba(239, 68, 68, 0.1)",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}>
+                <AlertCircle size={20} color="#ef4444" />
+              </div>
+              <h3 style={{ margin: 0, fontSize: "1.1rem", color: "var(--text-main)", fontFamily: "var(--font-display)" }}>
+                Delete Endpoint
+              </h3>
+            </div>
+            <p style={{ color: "var(--text-secondary)", fontSize: "0.9rem", margin: "0 0 0.5rem", lineHeight: 1.5 }}>
+              Are you sure you want to delete <strong style={{ color: "var(--text-main)" }}>{deleteTarget.name}</strong>? This will permanently remove the endpoint and all its ping history.
+            </p>
+            <p style={{ color: "var(--text-muted)", fontSize: "0.8rem", margin: "0 0 1.5rem" }}>
+              This action cannot be undone.
+            </p>
+            <div style={{ display: "flex", gap: "0.75rem", justifyContent: "flex-end" }}>
+              <button
+                onClick={() => setDeleteTarget(null)}
+                disabled={deleting}
+                style={{
+                  padding: "0.6rem 1.2rem",
+                  background: "transparent",
+                  border: "1px solid var(--border-strong)",
+                  color: "var(--text-secondary)",
+                  borderRadius: "var(--radius-sm)",
+                  cursor: "pointer",
+                  fontSize: "0.85rem",
+                  transition: "all 0.2s",
+                }}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={confirmDelete}
+                disabled={deleting}
+                style={{
+                  padding: "0.6rem 1.2rem",
+                  background: "#ef4444",
+                  border: "none",
+                  color: "white",
+                  borderRadius: "var(--radius-sm)",
+                  cursor: deleting ? "not-allowed" : "pointer",
+                  fontSize: "0.85rem",
+                  fontWeight: 500,
+                  opacity: deleting ? 0.7 : 1,
+                  transition: "all 0.2s",
+                }}
+              >
+                {deleting ? "Deleting..." : "Delete Endpoint"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
