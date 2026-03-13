@@ -316,10 +316,26 @@ a {
   color: var(--text-main);
 }
 
+.landing-page {
+  overflow-x: hidden;
+  position: relative;
+}
+
 .container-lg {
   max-width: 1400px;
   margin: 0 auto;
   padding: 0 4vw;
+}
+
+.landing-footer {
+  border-top: 1px solid var(--border-subtle);
+  padding: 2rem 4vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--bg-base);
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .hero {
@@ -589,15 +605,25 @@ a {
   }
 }
 
-@media (max-width: 640px) {
-  .pipeline-track {
-    grid-template-columns: 1fr;
-  }
+@media (max-width: 768px) {
   .metrics-display {
     flex-direction: column;
+    gap: 1rem;
   }
   .metric-card {
     padding: 1.5rem;
+  }
+  .metric-value {
+    font-size: 2.5rem;
+  }
+  .ambient-glow {
+    width: 100vw;
+  }
+}
+
+@media (max-width: 640px) {
+  .pipeline-track {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -893,9 +919,71 @@ select.input-field {
   background: var(--border-strong);
 }
 
+.endpoint-stats {
+  display: flex;
+  gap: 2rem;
+  margin-top: 1.5rem;
+  align-items: center;
+}
+
+.endpoint-card {
+  background: rgba(255,255,255,0.02);
+  padding: 1rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.status-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.mobile-topbar {
+  display: none;
+}
+
+.sidebar-close-btn {
+  display: none;
+  background: transparent;
+  border: none;
+  color: var(--text-main);
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
 @media (max-width: 768px) {
+  .mobile-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border-strong);
+    background: var(--bg-surface);
+    position: relative;
+    z-index: 10;
+  }
+
   .mobile-menu-btn {
     display: flex;
+  }
+
+  .sidebar-close-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .dashboard-sidebar {
@@ -934,6 +1022,14 @@ select.input-field {
   .dashboard-main header {
     flex-direction: column;
     gap: 1rem;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .status-stats-grid {
+    grid-template-columns: 1fr;
   }
 
   .landing-nav {
@@ -1002,6 +1098,7 @@ select.input-field {
     text-align: center;
     gap: 1.25rem;
     padding: 2rem 1.25rem;
+    align-items: center;
   }
 
   .endpoint-health-panel {
@@ -1013,6 +1110,11 @@ select.input-field {
   .endpoint-health-divider {
     width: 100%;
     height: 1px;
+  }
+
+  .endpoint-stats {
+    flex-direction: row;
+    gap: 1.5rem;
   }
 
   .auth-card {

@@ -72,7 +72,7 @@ export default function Home() {
   };
 
   return (
-    <>
+    <div className="landing-page">
       <Navbar />
       <div className="noise-overlay"></div>
       <div className="grid-bg"></div>
@@ -94,7 +94,7 @@ export default function Home() {
           }}
         >
           Monitor your APIs in <br />
-          <span>real-time.</span>
+          <span style={{ color: "var(--accent-primary)", fontStyle: "italic" }}>real-time.</span>
         </motion.h1>
 
         <motion.p variants={itemVariants}>
@@ -308,18 +308,7 @@ export default function Home() {
         </motion.div>
       </section>
 
-      <footer
-        style={{
-          borderTop: "1px solid var(--border-subtle)",
-          padding: "2rem 4vw",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          background: "var(--bg-base)",
-          flexWrap: "wrap",
-          gap: "1rem",
-        }}
-      >
+      <footer className="landing-footer">
         <div style={{ display: "flex", alignItems: "center", gap: "0.75rem" }}>
           <Activity size={20} color="var(--accent-primary)" />
           <span
@@ -406,6 +395,6 @@ export default function Home() {
           </a>
         </div>
       </footer>
-    </>
+    </div>
   );
 }

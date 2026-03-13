@@ -135,7 +135,7 @@ export default function StatusPage() {
         </div>
 
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1rem", marginBottom: "2rem" }}>
+        <div className="status-stats-grid">
           <div className="glass-panel" style={{ padding: "1.5rem", textAlign: "center" }}>
             <div style={{ fontSize: "0.75rem", color: "var(--text-muted)", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "0.5rem", fontFamily: "var(--font-mono)" }}>Uptime</div>
             <div style={{ fontSize: "2rem", fontWeight: 800, fontFamily: "var(--font-display)", color: uptimeColor }}>
@@ -164,6 +164,7 @@ export default function StatusPage() {
         </h3>
 
         <div className="glass-panel" style={{ overflow: "hidden" }}>
+          <div className="table-responsive">
           {data.pings.length === 0 ? (
             <div style={{ padding: "3rem", textAlign: "center", color: "var(--text-muted)", fontFamily: "var(--font-body)" }}>
               No checks recorded yet. Monitoring will begin shortly.
@@ -201,6 +202,7 @@ export default function StatusPage() {
               </tbody>
             </table>
           )}
+          </div>
         </div>
 
 

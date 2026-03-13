@@ -1,10 +1,8 @@
 import { useState, useEffect } from "react";
-import { useSession, signOut } from "../lib/auth";
-import { useNavigate, Link } from "react-router-dom";
+import { useSession } from "../lib/auth";
+import { useNavigate } from "react-router-dom";
 import {
   Activity,
-  LogOut,
-  Settings,
   Server,
   AlertCircle,
   X,
@@ -12,6 +10,7 @@ import {
   XCircle,
 } from "lucide-react";
 import { API_URL } from "../lib/api";
+import DashboardLayout from "../components/DashboardLayout";
 
 export default function Dashboard() {
   const { data: session, isPending } = useSession();
@@ -114,580 +113,369 @@ export default function Dashboard() {
     }
   };
 
-  const handleSignOut = async () => {
-    await signOut();
-    navigate("/login");
-  };
-
   if (isPending || !session) return null;
 
   return (
-    <div
-      style={{
-        display: "flex",
-        height: "100vh",
-        flexDirection: "column",
-        background: "var(--bg-base)",
-        position: "relative",
-        overflow: "hidden",
-      }}
-    >
-      <div className="bg-glow bg-glow-1"></div>
-      <div className="bg-glow bg-glow-2"></div>
-
-      <div
+    <DashboardLayout activePage="Endpoints">
+      <header
         style={{
           display: "flex",
-          flex: 1,
-          borderTop: "1px solid var(--border-strong)",
-          overflow: "hidden",
+          justifyContent: "space-between",
+          alignItems: "flex-start",
+          marginBottom: "3rem",
         }}
       >
-        <aside
-          style={{
-            width: "280px",
-            borderRight: "1px solid var(--border-strong)",
-            background: "var(--bg-surface)",
-            padding: "2rem 1.5rem",
-            display: "flex",
-            flexDirection: "column",
-            position: "relative",
-            zIndex: 10,
-          }}
-        >
-          <Link
-            to="/"
-            className="logo"
-            style={{ marginBottom: "3rem", paddingLeft: "0.5rem" }}
+        <div>
+          <h1
+            style={{
+              fontSize: "1.5rem",
+              marginBottom: "0.5rem",
+              fontFamily: "var(--font-display)",
+              color: "var(--text-main)",
+              fontWeight: 600,
+            }}
           >
-            <span style={{ color: "var(--text-main)" }}>Pulse</span>
-            <span style={{ color: "var(--accent-primary)" }}>API</span>
-          </Link>
+            API Endpoints
+          </h1>
+          <p
+            style={{
+              color: "var(--text-secondary)",
+              margin: 0,
+              fontFamily: "var(--font-mono)",
+              fontSize: "0.85rem",
+            }}
+          >
+            Manage and monitor your API endpoints.
+          </p>
+        </div>
+      </header>
 
-          <nav
+      {error && (
+        <div className="toast-notification">
+          <AlertCircle size={18} />
+          <span>{error}</span>
+          <button
+            type="button"
+            onClick={() => setError("")}
+            className="toast-close"
+            aria-label="Close error"
+          >
+            <X size={16} />
+          </button>
+        </div>
+      )}
+
+      <div className="dashboard-grid">
+        <div className="glass-panel" style={{ padding: "1.5rem" }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "0.75rem",
+              marginBottom: "1.5rem",
+              color: "var(--text-secondary)",
+            }}
+          >
+            <Server size={20} />
+            <h3 style={{ margin: 0, fontSize: "1.1rem" }}>
+              Add New Endpoint
+            </h3>
+          </div>
+
+          <form
+            onSubmit={handleCreateEndpoint}
             style={{
               display: "flex",
               flexDirection: "column",
-              gap: "0.5rem",
-              flex: 1,
-            }}
-          >
-            {[
-              {
-                name: "Endpoints",
-                icon: <Server size={18} />,
-                path: "/dashboard",
-              },
-              {
-                name: "Activity Logs",
-                icon: <Activity size={18} />,
-                path: "/logs",
-              },
-              {
-                name: "Settings",
-                icon: <Settings size={18} />,
-                path: "/settings",
-              },
-            ].map((item) => {
-              const isActive = item.name === "Endpoints";
-              return (
-                <Link
-                  to={item.path}
-                  key={item.name}
-                  style={{ textDecoration: "none" }}
-                >
-                  <div
-                    style={{
-                      padding: "0.75rem 1rem",
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "0.75rem",
-                      borderRadius: "var(--radius-sm)",
-                      background: isActive
-                        ? "rgba(255, 255, 255, 0.05)"
-                        : "transparent",
-                      color: isActive ? "white" : "var(--text-secondary)",
-                      fontWeight: 500,
-                      cursor: "pointer",
-                      transition: "all 0.2s",
-                    }}
-                  >
-                    {item.icon} {item.name}
-                  </div>
-                </Link>
-              );
-            })}
-          </nav>
-
-          <div
-            style={{
-              borderTop: "1px solid var(--border-strong)",
-              paddingTop: "1.5rem",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "0.75rem",
-                marginBottom: "1rem",
-              }}
-            >
-              <div
-                style={{
-                  width: "36px",
-                  height: "36px",
-                  borderRadius: "50%",
-                  background: "var(--accent-primary)",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  color: "white",
-                  fontWeight: 600,
-                  fontFamily: "var(--font-display)",
-                }}
-              >
-                {isPending
-                  ? "..."
-                  : session?.user?.name?.charAt(0).toUpperCase() || "U"}
-              </div>
-              <div>
-                <div
-                  style={{
-                    fontWeight: 500,
-                    fontSize: "0.95rem",
-                    color: "var(--text-main)",
-                  }}
-                >
-                  {isPending ? "Loading..." : session?.user?.name}
-                </div>
-                <div
-                  style={{
-                    color: "var(--text-secondary)",
-                    fontSize: "0.8rem",
-                    maxWidth: "160px",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                  }}
-                >
-                  {isPending ? "Please wait" : session?.user?.email}
-                </div>
-              </div>
-            </div>
-            <button
-              onClick={handleSignOut}
-              style={{
-                width: "100%",
-                padding: "0.75rem 1rem",
-                background: "transparent",
-                border: "1px solid var(--border-strong)",
-                color: "var(--text-secondary)",
-                borderRadius: "var(--radius-sm)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: "0.5rem",
-                cursor: "pointer",
-                transition: "all 0.2s",
-              }}
-              onMouseOver={(e) => {
-                e.currentTarget.style.color = "#ef4444";
-                e.currentTarget.style.borderColor = "#ef4444";
-              }}
-              onMouseOut={(e) => {
-                e.currentTarget.style.color = "var(--text-secondary)";
-                e.currentTarget.style.borderColor = "var(--border-strong)";
-              }}
-            >
-              <LogOut size={16} /> Sign out
-            </button>
-          </div>
-        </aside>
-
-        <main
-          style={{
-            flex: 1,
-            overflowY: "auto",
-            padding: "2rem 3rem 4rem",
-            position: "relative",
-            zIndex: 10,
-          }}
-        >
-          <header
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "flex-start",
-              marginBottom: "3rem",
+              gap: "1rem",
             }}
           >
             <div>
-              <h1
+              <label
                 style={{
-                  fontSize: "1.5rem",
+                  display: "block",
+                  fontSize: "0.8rem",
+                  color: "var(--text-secondary)",
                   marginBottom: "0.5rem",
                   fontFamily: "var(--font-display)",
-                  color: "var(--text-main)",
-                  fontWeight: 600,
+                  textTransform: "uppercase",
+                  letterSpacing: "0.05em",
                 }}
               >
-                API Endpoints
-              </h1>
-              <p
+                Endpoint Name
+              </label>
+              <input
+                type="text"
+                className="input-field"
+                placeholder="e.g. Production API"
+                value={newEndpoint.name}
+                onChange={(e) =>
+                  setNewEndpoint({ ...newEndpoint, name: e.target.value })
+                }
+                style={{ width: "100%", boxSizing: "border-box" }}
+                disabled={loading}
+              />
+            </div>
+            <div>
+              <label
                 style={{
+                  display: "block",
+                  fontSize: "0.8rem",
                   color: "var(--text-secondary)",
-                  margin: 0,
-                  fontFamily: "var(--font-mono)",
-                  fontSize: "0.85rem",
+                  marginBottom: "0.5rem",
+                  fontFamily: "var(--font-display)",
+                  textTransform: "uppercase",
+                  letterSpacing: "0.05em",
                 }}
               >
-                Manage and monitor your API endpoints.
-              </p>
+                Target URL
+              </label>
+              <input
+                type="url"
+                className="input-field"
+                placeholder="https://api.example.com/health"
+                value={newEndpoint.url}
+                onChange={(e) =>
+                  setNewEndpoint({ ...newEndpoint, url: e.target.value })
+                }
+                style={{
+                  width: "100%",
+                  boxSizing: "border-box",
+                  fontFamily: "monospace",
+                }}
+                disabled={loading}
+              />
             </div>
-          </header>
+            <div style={{ display: "flex", gap: "1rem" }}>
+              <div style={{ flex: 1 }}>
+                <label
+                  style={{
+                    display: "block",
+                    fontSize: "0.8rem",
+                    color: "var(--text-secondary)",
+                    marginBottom: "0.5rem",
+                    fontFamily: "var(--font-display)",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.05em",
+                  }}
+                >
+                  Method
+                </label>
+                <select
+                  className="input-field"
+                  value={newEndpoint.method}
+                  onChange={(e) =>
+                    setNewEndpoint({
+                      ...newEndpoint,
+                      method: e.target.value,
+                    })
+                  }
+                  style={{ width: "100%", boxSizing: "border-box" }}
+                  disabled={loading}
+                >
+                  <option value="GET">GET</option>
+                  <option value="POST">POST</option>
+                </select>
+              </div>
+              <div style={{ flex: 1 }}>
+                <label
+                  style={{
+                    display: "block",
+                    fontSize: "0.8rem",
+                    color: "var(--text-secondary)",
+                    marginBottom: "0.5rem",
+                    fontFamily: "var(--font-display)",
+                    textTransform: "uppercase",
+                    letterSpacing: "0.05em",
+                  }}
+                >
+                  Ping Interval
+                </label>
+                <select
+                  className="input-field"
+                  value={newEndpoint.interval}
+                  onChange={(e) =>
+                    setNewEndpoint({
+                      ...newEndpoint,
+                      interval: Number(e.target.value),
+                    })
+                  }
+                  style={{ width: "100%", boxSizing: "border-box" }}
+                  disabled={loading}
+                >
+                  <option value={60}>Every 1 Minute</option>
+                  <option value={300}>Every 5 Minutes</option>
+                  <option value={3600}>Every 1 Hour</option>
+                </select>
+              </div>
+            </div>
+            <button
+              type="submit"
+              className="btn btn-primary"
+              disabled={loading}
+              style={{ width: "100%", marginTop: "0.5rem" }}
+            >
+              {loading ? "Adding Endpoint..." : "Start Monitoring"}
+            </button>
+          </form>
+        </div>
 
-          {error && (
-            <div className="toast-notification">
-              <AlertCircle size={18} />
-              <span>{error}</span>
-              <button
-                type="button"
-                onClick={() => setError("")}
-                className="toast-close"
-                aria-label="Close error"
-              >
-                <X size={16} />
-              </button>
-            </div>
-          )}
+        <div
+          className="glass-panel"
+          style={{
+            padding: "1.5rem",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "0.75rem",
+              marginBottom: "1.5rem",
+              color: "var(--text-secondary)",
+            }}
+          >
+            <Activity size={20} />
+            <h3 style={{ margin: 0, fontSize: "1.1rem" }}>
+              Monitored Endpoints
+            </h3>
+          </div>
 
           <div
             style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
-              gap: "1.5rem",
-              marginBottom: "2.5rem",
+              flex: 1,
+              display: "flex",
+              flexDirection: "column",
+              gap: "0.75rem",
+              overflowY: "auto",
             }}
           >
-            <div className="glass-panel" style={{ padding: "1.5rem" }}>
+            {fetchingEndpoints ? (
               <div
                 style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.75rem",
-                  marginBottom: "1.5rem",
-                  color: "var(--text-secondary)",
+                  padding: "2rem",
+                  textAlign: "center",
+                  color: "var(--text-muted)",
                 }}
               >
-                <Server size={20} />
-                <h3 style={{ margin: 0, fontSize: "1.1rem" }}>
-                  Add New Endpoint
-                </h3>
+                Loading endpoints...
               </div>
-
-              <form
-                onSubmit={handleCreateEndpoint}
+            ) : endpoints.length === 0 ? (
+              <div
                 style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "1rem",
+                  padding: "2rem",
+                  textAlign: "center",
+                  background: "rgba(255,255,255,0.02)",
+                  borderRadius: "var(--radius-sm)",
+                  border: "1px dashed var(--border-subtle)",
+                  color: "var(--text-muted)",
                 }}
               >
-                <div>
-                  <label
-                    style={{
-                      display: "block",
-                      fontSize: "0.8rem",
-                      color: "var(--text-secondary)",
-                      marginBottom: "0.5rem",
-                      fontFamily: "var(--font-display)",
-                      textTransform: "uppercase",
-                      letterSpacing: "0.05em",
-                    }}
-                  >
-                    Endpoint Name
-                  </label>
-                  <input
-                    type="text"
-                    className="input-field"
-                    placeholder="e.g. Production API"
-                    value={newEndpoint.name}
-                    onChange={(e) =>
-                      setNewEndpoint({ ...newEndpoint, name: e.target.value })
-                    }
-                    style={{ width: "100%", boxSizing: "border-box" }}
-                    disabled={loading}
-                  />
-                </div>
-                <div>
-                  <label
-                    style={{
-                      display: "block",
-                      fontSize: "0.8rem",
-                      color: "var(--text-secondary)",
-                      marginBottom: "0.5rem",
-                      fontFamily: "var(--font-display)",
-                      textTransform: "uppercase",
-                      letterSpacing: "0.05em",
-                    }}
-                  >
-                    Target URL
-                  </label>
-                  <input
-                    type="url"
-                    className="input-field"
-                    placeholder="https://api.example.com/health"
-                    value={newEndpoint.url}
-                    onChange={(e) =>
-                      setNewEndpoint({ ...newEndpoint, url: e.target.value })
-                    }
-                    style={{
-                      width: "100%",
-                      boxSizing: "border-box",
-                      fontFamily: "monospace",
-                    }}
-                    disabled={loading}
-                  />
-                </div>
-                <div style={{ display: "flex", gap: "1rem" }}>
-                  <div style={{ flex: 1 }}>
-                    <label
-                      style={{
-                        display: "block",
-                        fontSize: "0.8rem",
-                        color: "var(--text-secondary)",
-                        marginBottom: "0.5rem",
-                        fontFamily: "var(--font-display)",
-                        textTransform: "uppercase",
-                        letterSpacing: "0.05em",
-                      }}
-                    >
-                      Method
-                    </label>
-                    <select
-                      className="input-field"
-                      value={newEndpoint.method}
-                      onChange={(e) =>
-                        setNewEndpoint({
-                          ...newEndpoint,
-                          method: e.target.value,
-                        })
-                      }
-                      style={{ width: "100%", boxSizing: "border-box" }}
-                      disabled={loading}
-                    >
-                      <option value="GET">GET</option>
-                      <option value="POST">POST</option>
-                    </select>
-                  </div>
-                  <div style={{ flex: 1 }}>
-                    <label
-                      style={{
-                        display: "block",
-                        fontSize: "0.8rem",
-                        color: "var(--text-secondary)",
-                        marginBottom: "0.5rem",
-                        fontFamily: "var(--font-display)",
-                        textTransform: "uppercase",
-                        letterSpacing: "0.05em",
-                      }}
-                    >
-                      Ping Interval
-                    </label>
-                    <select
-                      className="input-field"
-                      value={newEndpoint.interval}
-                      onChange={(e) =>
-                        setNewEndpoint({
-                          ...newEndpoint,
-                          interval: Number(e.target.value),
-                        })
-                      }
-                      style={{ width: "100%", boxSizing: "border-box" }}
-                      disabled={loading}
-                    >
-                      <option value={60}>Every 1 Minute</option>
-                      <option value={300}>Every 5 Minutes</option>
-                      <option value={3600}>Every 1 Hour</option>
-                    </select>
-                  </div>
-                </div>
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                  disabled={loading}
-                  style={{ width: "100%", marginTop: "0.5rem" }}
+                No endpoints are currently being monitored. Let's add one.
+              </div>
+            ) : (
+              endpoints.map((ep) => (
+                <div
+                  key={ep.id}
+                  className="endpoint-card"
                 >
-                  {loading ? "Adding Endpoint..." : "Start Monitoring"}
-                </button>
-              </form>
-            </div>
-
-            <div
-              className="glass-panel"
-              style={{
-                padding: "1.5rem",
-                display: "flex",
-                flexDirection: "column",
-              }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.75rem",
-                  marginBottom: "1.5rem",
-                  color: "var(--text-secondary)",
-                }}
-              >
-                <Activity size={20} />
-                <h3 style={{ margin: 0, fontSize: "1.1rem" }}>
-                  Monitored Endpoints
-                </h3>
-              </div>
-
-              <div
-                style={{
-                  flex: 1,
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "0.75rem",
-                  overflowY: "auto",
-                }}
-              >
-                {fetchingEndpoints ? (
-                  <div
-                    style={{
-                      padding: "2rem",
-                      textAlign: "center",
-                      color: "var(--text-muted)",
-                    }}
-                  >
-                    Loading endpoints...
-                  </div>
-                ) : endpoints.length === 0 ? (
-                  <div
-                    style={{
-                      padding: "2rem",
-                      textAlign: "center",
-                      background: "rgba(255,255,255,0.02)",
-                      borderRadius: "var(--radius-sm)",
-                      border: "1px dashed var(--border-subtle)",
-                      color: "var(--text-muted)",
-                    }}
-                  >
-                    No endpoints are currently being monitored. Let's add one.
-                  </div>
-                ) : (
-                  endpoints.map((ep) => (
+                  <div style={{ minWidth: 0 }}>
                     <div
-                      key={ep.id}
                       style={{
-                        background: "rgba(255,255,255,0.02)",
-                        padding: "1rem",
-                        borderRadius: "var(--radius-sm)",
-                        border: "1px solid var(--border-subtle)",
                         display: "flex",
-                        justifyContent: "space-between",
                         alignItems: "center",
+                        gap: "0.6rem",
+                        marginBottom: "0.25rem",
                       }}
                     >
-                      <div>
-                        <div
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: "0.6rem",
-                            marginBottom: "0.25rem",
-                          }}
-                        >
-                          {ep.status === "UP" ? (
-                            <CheckCircle2 size={16} color="#52B365" />
-                          ) : ep.status === "DOWN" ? (
-                            <XCircle size={16} color="#ef4444" />
-                          ) : (
-                            <AlertCircle size={16} color="#fbbf24" />
-                          )}
-                          <div
-                            style={{
-                              fontWeight: 600,
-                              fontSize: "1rem",
-                              color: "var(--text-main)",
-                              fontFamily: "var(--font-display)",
-                            }}
-                          >
-                            {ep.name}
-                          </div>
-                        </div>
-                        <div
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: "0.5rem",
-                          }}
-                        >
-                          <div
-                            style={{
-                              fontSize: "0.7rem",
-                              padding: "0.1rem 0.3rem",
-                              background: "rgba(255,255,255,0.1)",
-                              borderRadius: "4px",
-                              fontFamily: "monospace",
-                              color: "var(--text-secondary)",
-                            }}
-                          >
-                            {ep.method}
-                          </div>
-                          <div
-                            style={{
-                              fontSize: "0.75rem",
-                              color: "var(--text-secondary)",
-                              fontFamily: "monospace",
-                              maxWidth: "200px",
-                              overflow: "hidden",
-                              textOverflow: "ellipsis",
-                              whiteSpace: "nowrap",
-                            }}
-                          >
-                            {ep.url}
-                          </div>
-                        </div>
-                      </div>
-                      <button
-                        onClick={() => setDeleteTarget({ id: ep.id, name: ep.name })}
+                      {ep.status === "UP" ? (
+                        <CheckCircle2 size={16} color="#52B365" />
+                      ) : ep.status === "DOWN" ? (
+                        <XCircle size={16} color="#ef4444" />
+                      ) : (
+                        <AlertCircle size={16} color="#fbbf24" />
+                      )}
+                      <div
                         style={{
-                          background: "transparent",
-                          color: "#ef4444",
-                          border: "none",
-                          padding: "0.5rem",
-                          cursor: "pointer",
-                          opacity: 0.6,
-                          transition: "all 0.2s",
-                        }}
-                        onMouseOver={(e) => {
-                          e.currentTarget.style.opacity = "1";
-                        }}
-                        onMouseOut={(e) => {
-                          e.currentTarget.style.opacity = "0.6";
+                          fontWeight: 600,
+                          fontSize: "1rem",
+                          color: "var(--text-main)",
+                          fontFamily: "var(--font-display)",
                         }}
                       >
-                        <span
-                          style={{
-                            fontFamily: "monospace",
-                            fontSize: "0.75rem",
-                            textTransform: "uppercase",
-                          }}
-                        >
-                          Delete
-                        </span>
-                      </button>
+                        {ep.name}
+                      </div>
                     </div>
-                  ))
-                )}
-              </div>
-            </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "0.5rem",
+                      }}
+                    >
+                      <div
+                        style={{
+                          fontSize: "0.7rem",
+                          padding: "0.1rem 0.3rem",
+                          background: "rgba(255,255,255,0.1)",
+                          borderRadius: "4px",
+                          fontFamily: "monospace",
+                          color: "var(--text-secondary)",
+                          flexShrink: 0,
+                        }}
+                      >
+                        {ep.method}
+                      </div>
+                      <div
+                        style={{
+                          fontSize: "0.75rem",
+                          color: "var(--text-secondary)",
+                          fontFamily: "monospace",
+                          overflow: "hidden",
+                          textOverflow: "ellipsis",
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        {ep.url}
+                      </div>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => setDeleteTarget({ id: ep.id, name: ep.name })}
+                    style={{
+                      background: "transparent",
+                      color: "#ef4444",
+                      border: "none",
+                      padding: "0.5rem",
+                      cursor: "pointer",
+                      opacity: 0.6,
+                      transition: "all 0.2s",
+                      flexShrink: 0,
+                    }}
+                    onMouseOver={(e) => {
+                      e.currentTarget.style.opacity = "1";
+                    }}
+                    onMouseOut={(e) => {
+                      e.currentTarget.style.opacity = "0.6";
+                    }}
+                  >
+                    <span
+                      style={{
+                        fontFamily: "monospace",
+                        fontSize: "0.75rem",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      Delete
+                    </span>
+                  </button>
+                </div>
+              ))
+            )}
           </div>
-        </main>
+        </div>
       </div>
 
       {deleteTarget && (
@@ -701,6 +489,7 @@ export default function Dashboard() {
             alignItems: "center",
             justifyContent: "center",
             zIndex: 1000,
+            padding: "1rem",
           }}
           onClick={() => !deleting && setDeleteTarget(null)}
         >
@@ -709,7 +498,7 @@ export default function Dashboard() {
             style={{
               padding: "2rem",
               maxWidth: "420px",
-              width: "90%",
+              width: "100%",
               animation: "fadeIn 0.15s ease-out",
             }}
             onClick={(e) => e.stopPropagation()}
@@ -723,6 +512,7 @@ export default function Dashboard() {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
+                flexShrink: 0,
               }}>
                 <AlertCircle size={20} color="#ef4444" />
               </div>
@@ -749,6 +539,7 @@ export default function Dashboard() {
                   cursor: "pointer",
                   fontSize: "0.85rem",
                   transition: "all 0.2s",
+                  fontFamily: "var(--font-body)",
                 }}
               >
                 Cancel
@@ -767,6 +558,7 @@ export default function Dashboard() {
                   fontWeight: 500,
                   opacity: deleting ? 0.7 : 1,
                   transition: "all 0.2s",
+                  fontFamily: "var(--font-body)",
                 }}
               >
                 {deleting ? "Deleting..." : "Delete Endpoint"}
@@ -775,6 +567,6 @@ export default function Dashboard() {
           </div>
         </div>
       )}
-    </div>
+    </DashboardLayout>
   );
 }
