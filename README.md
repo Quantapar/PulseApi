@@ -8,8 +8,8 @@ Real-time API uptime monitoring. Add an endpoint. Pulse handles the rest.
 
 **Live:** [pulseapi.quantapar.com](https://pulseapi.quantapar.com)
 
-| Email | Password |
-|-------|----------|
+| Email                   | Password   |
+| ----------------------- | ---------- |
 | `gadiri6594@devlug.com` | `45454545` |
 
 ## Demo
