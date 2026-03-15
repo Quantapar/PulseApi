@@ -4,6 +4,10 @@ Real-time API uptime monitoring. Add an endpoint. Pulse handles the rest.
 
 ![PulseAPI](Frontend/src/assets/PusleAPI.png)
 
+## Demo
+
+[![Watch the demo](https://img.youtube.com/vi/L75pejYGAmE/maxresdefault.jpg)](https://www.youtube.com/watch?v=L75pejYGAmE)
+
 ## What is PulseAPI?
 
 PulseAPI is a full-stack API monitoring platform that continuously checks your HTTP endpoints and alerts you the moment something goes down. It tracks response times, status codes, and uptime history — giving developers a single dashboard to understand the health of their APIs.

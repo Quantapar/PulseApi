@@ -16,7 +16,7 @@ export default function Navbar() {
         </Link>
         <div className="landing-nav-links">
           <a href="#features">Features</a>
-          <a href="#demo">Demo</a>
+          <a href="https://www.youtube.com/watch?v=L75pejYGAmE" target="_blank" rel="noopener noreferrer">Demo</a>
           <a
             href="https://github.com/Quantapar/PulseApi"
             target="_blank"
@@ -92,7 +92,7 @@ export default function Navbar() {
           <span style={{ color: "var(--accent-primary)" }}>API</span>
         </Link>
         <a href="#features" onClick={() => setMobileOpen(false)}>Features</a>
-        <a href="#demo" onClick={() => setMobileOpen(false)}>Demo</a>
+        <a href="https://www.youtube.com/watch?v=L75pejYGAmE" target="_blank" rel="noopener noreferrer" onClick={() => setMobileOpen(false)}>Demo</a>
         <a
           href="https://github.com/Quantapar/PulseApi"
           target="_blank"
