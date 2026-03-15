@@ -6,7 +6,7 @@ Real-time API uptime monitoring. Add an endpoint. Pulse handles the rest.
 
 ## Demo
 
-[![Watch the demo](https://img.youtube.com/vi/L75pejYGAmE/maxresdefault.jpg)](https://www.youtube.com/watch?v=L75pejYGAmE)
+[![Watch the demo](https://img.youtube.com/vi/L75pejYGAmE/hqdefault.jpg)](https://www.youtube.com/watch?v=L75pejYGAmE)
 
 ## What is PulseAPI?
 
@@ -21,7 +21,7 @@ Built as a solo project for the [TestSprite Hackathon](https://www.testsprite.co
 - **Email Alerts** — Instant down/recovery notifications via Resend
 - **Shareable Status Pages** — One-click public status page per endpoint
 - **Activity Logs** — Full ping history with status codes, response times, and timestamps
-- **Auth** — Email/password with OTP verification + Google OAuth, seamless post-signup flow
+- **Auth** — Email/password with OTP verification, seamless post-signup flow
 - **Auto-Refresh** — Dashboard polls for live status updates without manual reload
 
 ## Tech Stack
