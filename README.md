@@ -4,6 +4,14 @@ Real-time API uptime monitoring. Add an endpoint. Pulse handles the rest.
 
 ![PulseAPI](Frontend/src/assets/PusleAPI.png)
 
+## Try It Out
+
+**Live:** [pulseapi.quantapar.com](https://pulseapi.quantapar.com)
+
+| Email | Password |
+|-------|----------|
+| `gadiri6594@devlug.com` | `45454545` |
+
 ## Demo
 
 [![Watch the demo](https://img.youtube.com/vi/L75pejYGAmE/hqdefault.jpg)](https://www.youtube.com/watch?v=L75pejYGAmE)
