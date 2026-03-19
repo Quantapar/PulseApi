@@ -47,7 +47,7 @@ export default function Home() {
     {
       question: "Is this a production tool?",
       answer:
-        "PulseAPI is currently a hackathon project built to demonstrate real-time API monitoring and uptime tracking.",
+        "PulseAPI is a personal project built to demonstrate real-time API monitoring and uptime tracking.",
     },
   ];
 
