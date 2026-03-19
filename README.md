@@ -7,8 +7,7 @@ Real-time API uptime monitoring. Add an endpoint. Pulse handles the rest.
 ## Try It Out
 
 **Live:** [pulseapi.quantapar.com](https://pulseapi.quantapar.com)
-
-| Email                   | Password   |
+| Email | Password |
 | ----------------------- | ---------- |
 | `gadiri6594@devlug.com` | `45454545` |
 
@@ -19,8 +18,6 @@ Real-time API uptime monitoring. Add an endpoint. Pulse handles the rest.
 ## What is PulseAPI?
 
 PulseAPI is a full-stack API monitoring platform that continuously checks your HTTP endpoints and alerts you the moment something goes down. It tracks response times, status codes, and uptime history — giving developers a single dashboard to understand the health of their APIs.
-
-Built as a solo project for the [TestSprite Hackathon](https://www.testsprite.com/hackathon).
 
 ## Features
 
@@ -66,13 +63,8 @@ PulseAPI/
 │       ├── pages/                # All pages (Dashboard, Logs, StatusPage, Auth)
 │       ├── components/           # Shared components (Navbar, UptimeBar)
 │       └── lib/auth.ts           # Auth client
-├── testsprite_tests/             # AI-generated test cases (TestSprite MCP)
 └── README.md
 ```
-
-## Testing
-
-Test cases are generated using [TestSprite MCP](https://testsprite.com) — an AI testing agent that auto-generates comprehensive test suites. All generated tests live in the `testsprite_tests/` directory covering API endpoint validation, monitoring service behavior, and authentication flows.
 
 ## Local Setup
 
